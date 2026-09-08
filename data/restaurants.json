@@ -1,0 +1,1911 @@
+[
+  {
+    "shopeeUrl": "https://shopeefood.vn/ha-noi/dao-che-che-sach-vi-ngon-kim-giang",
+    "id": "dao-che-kim-giang",
+    "category": "Yêu thích",
+    "timeOpen": "09:00 - 22:00",
+    "rating": "4.9",
+    "description": "Thực đơn chính thức từ ShopeeFood: Đảo Chè - Chè Sạch Vị Ngon - Kim Giang",
+    "name": "Đảo Chè - Chè Sạch Vị Ngon - Kim Giang",
+    "address": "104 Kim Giang, P. Đại Kim, Hoàng Mai, Hà Nội",
+    "dishes": [
+      {
+        "id": "dish-01",
+        "name": "Chè Cốm Khoai Dẻo (like)",
+        "price": 15000,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-02",
+        "name": "Bơ Già Dừa Non (đồ uống)",
+        "price": 45000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-03",
+        "name": "Nước Dừa Hoa Đậu Biếc Trân Châu",
+        "price": 40000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-04",
+        "name": "Chè khoai dẻo pudding khoai môn",
+        "price": 35000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-05",
+        "name": "Trà sữa ô long kem trứng dừa nướng",
+        "price": 40000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-06",
+        "name": "Trà Mãng Cầu",
+        "price": 40000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-07",
+        "name": "Sữa chua dầm mãng cầu",
+        "price": 40000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-08",
+        "name": "Sữa dừa Khoai Môn tươi",
+        "price": 40000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-09",
+        "name": "Sữa Dừa Nếp Thái (like)",
+        "price": 35000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-10",
+        "name": "Nước Lê Nha Đam",
+        "price": 38000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-11",
+        "name": "Chè pudding Khoai Môn",
+        "price": 35000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-12",
+        "name": "Nước Lê thanh mát",
+        "price": 35000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-13",
+        "name": "Ô long môn sữa",
+        "price": 40000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-14",
+        "name": "Ô long nhài sữa",
+        "price": 35000,
+        "category": "MÓN MỚI MÁT LÀNH TRẢI NGHIỆM MỚI",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-15",
+        "name": "Chè Thập Cẩm truyền thống",
+        "price": 30000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-16",
+        "name": "Chè Bưởi An Giang",
+        "price": 25000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-17",
+        "name": "Chè Thái Bưởi",
+        "price": 30000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-18",
+        "name": "Chè Thập cẩm Caramel",
+        "price": 38000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-19",
+        "name": "Chè Cốm Bưởi",
+        "price": 30000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-20",
+        "name": "Chè Cốm dẻo dừa non",
+        "price": 30000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-21",
+        "name": "Chè Bưởi Khoai Dẻo",
+        "price": 30000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-22",
+        "name": "Đậu đỏ dừa non",
+        "price": 30000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-23",
+        "name": "Chè Đậu Đỏ Sương Sáo",
+        "price": 30000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-24",
+        "name": "Thái bưởi đậu đỏ caramen",
+        "price": 34000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-25",
+        "name": "Set Chè Bưởi 1kg",
+        "price": 90000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-26",
+        "name": "Đậu Đỏ Trân châu cốt dừa",
+        "price": 25000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-27",
+        "name": "Set chè cốm 1 kg",
+        "price": 110000,
+        "category": "CHÈ TRUYỀN THỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-28",
+        "name": "Chè Sầu Đảo Chè",
+        "price": 38000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-29",
+        "name": "Dừa dầm Đảo Chè Đặc biệt (like)",
+        "price": 35000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-30",
+        "name": "Chè Khúc Bạch Caramel",
+        "price": 35000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-31",
+        "name": "Dừa Non Dầm Hải Phòng(chuẩn vị)",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-32",
+        "name": "Chè Bơ già dừa non nướng",
+        "price": 45000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-33",
+        "name": "Chè Mít Đác Sầu Caramen",
+        "price": 40000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-34",
+        "name": "Chè Mít Đác - Caramen",
+        "price": 35000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-35",
+        "name": "Chè Khúc Bạch hạnh nhân",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-36",
+        "name": "Chè Khoai Dẻo Khúc Bạch",
+        "price": 35000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-37",
+        "name": "Chè Caramen 9 tầng mây (like)",
+        "price": 40000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-38",
+        "name": "Chè Khoai Dẻo- Caramen (like)",
+        "price": 40000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-39",
+        "name": "Chè Bơ Sầu",
+        "price": 40000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-40",
+        "name": "Chè Xoài Mãng Cầu",
+        "price": 40000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-41",
+        "name": "Chè Thái Mít Đác",
+        "price": 32000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-42",
+        "name": "Chè Khoai Dẻo đậu đỏ",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-43",
+        "name": "Chè Sương Sáo Cốt Dừa Trân Châu",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-44",
+        "name": "Chè Xoài",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-45",
+        "name": "Khoai Dẻo Đậu Đỏ Caramen",
+        "price": 40000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-46",
+        "name": "Chè 9 tầng mây",
+        "price": 35000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-47",
+        "name": "Chè Bơ tươi xay",
+        "price": 36000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-48",
+        "name": "Dừa Non lá nếp",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-49",
+        "name": "Chè Xoài Khúc Bạch",
+        "price": 40000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-50",
+        "name": "Chè Khoai Dẻo sương sáo",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-51",
+        "name": "Chè Thái sữa dừa",
+        "price": 30000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "Chè bánh lọt cốt dừa là món chè nổi tiếng của Thái. Bánh lọt xanh thơm lá dứa hoà quyện cùng cốt dừa, thêm topping trân châu và thạch dừa",
+        "tag": ""
+      },
+      {
+        "id": "dish-52",
+        "name": "Chè Dừa Dầm Sầu Riêng",
+        "price": 34000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-53",
+        "name": "Dừa Dầm Đác Rim",
+        "price": 35000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-54",
+        "name": "Chè Đậu Đỏ Khoai dẻo",
+        "price": 35000,
+        "category": "CHÈ NGON ĐẢO CHÈ",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-55",
+        "name": "Sữa chua Mít- Caramen",
+        "price": 35000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-56",
+        "name": "Sữa chua Mít Đảo Chè",
+        "price": 30000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-57",
+        "name": "Kem Bơ",
+        "price": 40000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-58",
+        "name": "Sữa Chua Dẻo trân châu cốt dừa",
+        "price": 35000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-59",
+        "name": "Sữa chua Dẻo Bơ",
+        "price": 40000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-60",
+        "name": "Sữa chua dẻo đậu đỏ trân châu",
+        "price": 30000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-61",
+        "name": "Sữa chua mít dầm đác",
+        "price": 35000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-62",
+        "name": "Sữa chua nha đam thạch lá nếp",
+        "price": 35000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-63",
+        "name": "Sữa chua dầm Đác rim",
+        "price": 35000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-64",
+        "name": "Sữa chua Dẻo xoài",
+        "price": 30000,
+        "category": "KEM XÔI - KEM BƠ - SỮA CHUA",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-65",
+        "name": "Tàu Hũ CARAMEN Kem Trứng( must try)",
+        "price": 35000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-66",
+        "name": "Caramel 2 hộp",
+        "price": 20000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-67",
+        "name": "Tàu hũ trân châu đường đen",
+        "price": 25000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-68",
+        "name": "Tàu hũ Caramen chân trâu",
+        "price": 35000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-69",
+        "name": "CARAMEN Trân châu đường đen (2BÁNH)",
+        "price": 25000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-70",
+        "name": "Caramen sương sáo",
+        "price": 25000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-71",
+        "name": "Tàu hũ Khoai Dẻo",
+        "price": 25000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-72",
+        "name": "Tàu hũ trân châu cốt dừa",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-73",
+        "name": "CARAMEN Kem Trứng Dừa Nướng",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-74",
+        "name": "Tàu hũ đậu đỏ",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-75",
+        "name": "Tàu Hũ chân trâu đường đen",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-76",
+        "name": "Tàu hũ kem trứng cacao",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-77",
+        "name": "Tàu Hũ Kem Trứng Dừa Nướng",
+        "price": 35000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-78",
+        "name": "Tàu Hũ Sương Sáo",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-79",
+        "name": "Tàu Hũ Cốm trân châu",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-80",
+        "name": "Tàu hũ đác",
+        "price": 30000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-81",
+        "name": "Tàu Hũ Sầu riêng",
+        "price": 35000,
+        "category": "TÀU HŨ - CARAMEN",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-82",
+        "name": "Nem chua rán Hà Nội/ đĩa nhỏ 5c",
+        "price": 35000,
+        "category": "ĐỒ ĂN VẶT",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-83",
+        "name": "Nem chua rán Hà Nội/ đĩa To 10c",
+        "price": 70000,
+        "category": "ĐỒ ĂN VẶT",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-84",
+        "name": "Khoai tây chiên",
+        "price": 40000,
+        "category": "ĐỒ ĂN VẶT",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-85",
+        "name": "Chân gà sả ớt rút xương(đĩa nhỏ 5-6 chân )",
+        "price": 65000,
+        "category": "ĐỒ ĂN VẶT",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-86",
+        "name": "Chè thái lọt đậu đỏ caramen",
+        "price": 35000,
+        "category": "ĐÂỤ ĐỎ MAY MẮN THẤT TỊCH",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-87",
+        "name": "chè đậu đỏ dừa non",
+        "price": 30000,
+        "category": "ĐÂỤ ĐỎ MAY MẮN THẤT TỊCH",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-88",
+        "name": "Đậu đỏ Trân châu truyền thống ( nước đỗ )",
+        "price": 25000,
+        "category": "ĐÂỤ ĐỎ MAY MẮN THẤT TỊCH",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-89",
+        "name": "Tàu hũ khoai dẻo đậu đỏ",
+        "price": 35000,
+        "category": "ĐÂỤ ĐỎ MAY MẮN THẤT TỊCH",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-90",
+        "name": "Trà Mãng cầu Nha Đam",
+        "price": 40000,
+        "category": "ĐỒ UỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-91",
+        "name": "TRÀ TẮC",
+        "price": 20000,
+        "category": "ĐỒ UỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-92",
+        "name": "Sữa tươi kem trứng trân châu",
+        "price": 30000,
+        "category": "ĐỒ UỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-93",
+        "name": "Sữa tươi kem trứng dừa nướng",
+        "price": 35000,
+        "category": "ĐỒ UỐNG",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-94",
+        "name": "Sữa chua thạch lá nếp trân châu",
+        "price": 25000,
+        "category": "Thực đơn tổng hợp",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-95",
+        "name": "Chè Dừa Non dầm Hạt Đác",
+        "price": 35000,
+        "category": "Thực đơn tổng hợp",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-96",
+        "name": "Tàu Hũ Kem Trứng Caramen (like)",
+        "price": 38000,
+        "category": "Thực đơn tổng hợp",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-97",
+        "name": "Chè Thái Đậu Đỏ CARAMEN",
+        "price": 35000,
+        "category": "Thực đơn tổng hợp",
+        "description": "",
+        "tag": ""
+      }
+    ]
+  },
+  {
+    "id": "rest-mtsg7jbc-4uk",
+    "name": "Phở Gà 47",
+    "category": "Yêu thích",
+    "address": "47 Ngõ Văn Hương, Tôn Đức Thắng, P. Hàng Bột, Đống Đa, Hà Nội",
+    "timeOpen": "09:00 - 22:30",
+    "rating": "5.0",
+    "shopeeUrl": "https://shopeefood.vn/ha-noi/pho-ga-47",
+    "dishes": [
+      {
+        "id": "dish-01",
+        "name": "Combo 2 phở gà đùi+ 2 Coca",
+        "price": 129600,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-02",
+        "name": "Combo 2 bún thang + 2 Coca",
+        "price": 129600,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-03",
+        "name": "Combo 2 phở bò sốt vang + 2 Coca",
+        "price": 129600,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-04",
+        "name": "Combo 2 phở trộn gà đùi + 2 Coca",
+        "price": 133200,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-05",
+        "name": "Combo 2 bún măng gà đùi+ 2 Coca",
+        "price": 129600,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-06",
+        "name": "Phở Gà Đùi + Coca",
+        "price": 68400,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-07",
+        "name": "Phở bò sốt vang + Coca",
+        "price": 68400,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-08",
+        "name": "Phở Trộn Gà Đùi  + Coca",
+        "price": 70300,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-09",
+        "name": "Bún măng gà đùi + Coca",
+        "price": 68400,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-10",
+        "name": "Bún thang + Coca",
+        "price": 68400,
+        "category": "Món Đang Giảm",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-11",
+        "name": "Phở bò tái lăn",
+        "price": 57000,
+        "category": "Món mới siêu hot",
+        "description": "",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-12",
+        "name": "Phở Gà Đùi",
+        "price": 57000,
+        "category": "Phở",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-13",
+        "name": "Phở Gà Thường",
+        "price": 52000,
+        "category": "Phở",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-14",
+        "name": "Phở Gà Đùi Mọc",
+        "price": 67000,
+        "category": "Phở",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-15",
+        "name": "Phở Gà Thường Mọc",
+        "price": 62000,
+        "category": "Phở",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-16",
+        "name": "Phở gà lườn không da",
+        "price": 48000,
+        "category": "Phở",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-17",
+        "name": "Phở bò chín +sốt vang",
+        "price": 62000,
+        "category": "Bò",
+        "description": "Giá trên đã bao gồm 5000₫ tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-18",
+        "name": "Phở bò sốt vang",
+        "price": 57000,
+        "category": "Bò",
+        "description": "Giá trên đã bao gồm 5000d tiền hôpj",
+        "tag": ""
+      },
+      {
+        "id": "dish-19",
+        "name": "Phở bò chín",
+        "price": 57000,
+        "category": "Bò",
+        "description": "Giá trên đã bao gồm 5000d tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-20",
+        "name": "Bún măng ngan",
+        "price": 57000,
+        "category": "Bún Miến Ngan",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-21",
+        "name": "Miến măng ngan",
+        "price": 57000,
+        "category": "Bún Miến Ngan",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng,  khách hàng  nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-22",
+        "name": "Miến trộn măng ngan",
+        "price": 59000,
+        "category": "Bún Miến Ngan",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng,  khách hàng  nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-23",
+        "name": "Bún trộn măng ngan",
+        "price": 59000,
+        "category": "Bún Miến Ngan",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-24",
+        "name": "Thịt ngan thêm",
+        "price": 20000,
+        "category": "Bún Miến Ngan",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-25",
+        "name": "Phở Trộn Gà Đùi",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-26",
+        "name": "Phở Trộn Gà Thường",
+        "price": 54000,
+        "category": "Đồ Trộn",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-27",
+        "name": "Miến Trộn Măng Gà Đùi",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng,  khách hàng nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-28",
+        "name": "Bún Trộn Măng Gà Đùi",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-29",
+        "name": "Miến Trộn Măng Gà Thường",
+        "price": 54000,
+        "category": "Đồ Trộn",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng,  khách hàng nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-30",
+        "name": "Bún Trộn Măng Gà Thường",
+        "price": 54000,
+        "category": "Đồ Trộn",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-31",
+        "name": "Mì trộn gà đùi",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "Giá trên đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-32",
+        "name": "Mì trộn gà thường",
+        "price": 54000,
+        "category": "Đồ Trộn",
+        "description": "Giá trên đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-33",
+        "name": "Phở trộn bò tái lăn",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-34",
+        "name": "Mì trộn bò tái lăn",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-35",
+        "name": "Bún trộn bò tái lăn",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-36",
+        "name": "Miến trộn bò tái lăn",
+        "price": 59000,
+        "category": "Đồ Trộn",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng, khách hàng nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-37",
+        "name": "Bún Thang",
+        "price": 57000,
+        "category": "Bún",
+        "description": "Giá trên đã bao gồm 5000đ tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-38",
+        "name": "Bún Măng Gà Đùi",
+        "price": 57000,
+        "category": "Bún",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-39",
+        "name": "Bún Măng Gà Thường",
+        "price": 52000,
+        "category": "Bún",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-40",
+        "name": "Bún măng mọc",
+        "price": 50000,
+        "category": "Bún",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-41",
+        "name": "Bún bò tái lăn",
+        "price": 57000,
+        "category": "Bún",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-42",
+        "name": "Miến Măng Gà Đùi",
+        "price": 57000,
+        "category": "Miến",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng,  khách hàng nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-43",
+        "name": "Miến Măng Gà Thường",
+        "price": 52000,
+        "category": "Miến",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng,  khách hàng nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-44",
+        "name": "Miến bò tái lăn",
+        "price": 57000,
+        "category": "Miến",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng, khách hàng nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-45",
+        "name": "Mì Gà Đùi",
+        "price": 57000,
+        "category": "Mì",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-46",
+        "name": "Mì Gà Thường",
+        "price": 52000,
+        "category": "Mì",
+        "description": "Giá đã bao gồm 5k tiền hộp",
+        "tag": ""
+      },
+      {
+        "id": "dish-47",
+        "name": "Mì bò tái lăn",
+        "price": 57000,
+        "category": "Mì",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-48",
+        "name": "Quẩy 2cái",
+        "price": 7000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-49",
+        "name": "Trứng gà trần",
+        "price": 10000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-50",
+        "name": "Mọc thêm",
+        "price": 15000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-51",
+        "name": "Gà đùi thêm",
+        "price": 25000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-52",
+        "name": "Măng thêm",
+        "price": 15000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-53",
+        "name": "Phở thêm",
+        "price": 5000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-54",
+        "name": "Gà lẫn thêm",
+        "price": 20000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-55",
+        "name": "Bò sốt vang thêm",
+        "price": 25000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-56",
+        "name": "Bò chín thêm",
+        "price": 25000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-57",
+        "name": "Bún thêm",
+        "price": 5000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-58",
+        "name": "Mì thêm",
+        "price": 5000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-59",
+        "name": "Tiết luộc",
+        "price": 20000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-60",
+        "name": "Bò tái lăn thêm",
+        "price": 30000,
+        "category": "Món Thêm",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-61",
+        "name": "Miến trần thêm",
+        "price": 5000,
+        "category": "Món Thêm",
+        "description": "Miến sẽ cứng và đóng cục trong quá trình giao hàng, phụ huynh nào khách hành nào không thông cảm cho việc đó vui lòng không đặt miến. Xin cảm ơn!",
+        "tag": ""
+      },
+      {
+        "id": "dish-62",
+        "name": "Coca",
+        "price": 15000,
+        "category": "Đồ uống",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-63",
+        "name": "Nước suối Dasani",
+        "price": 12000,
+        "category": "Đồ uống",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-64",
+        "name": "Fuze tea trà đào và hạt chia",
+        "price": 18000,
+        "category": "Đồ uống",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-65",
+        "name": "Fuze tea chanh sả",
+        "price": 18000,
+        "category": "Đồ uống",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-66",
+        "name": "Fanta",
+        "price": 15000,
+        "category": "Đồ uống",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-67",
+        "name": "Fuze tea chanh dây",
+        "price": 18000,
+        "category": "Đồ uống",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-68",
+        "name": "Sprite",
+        "price": 15000,
+        "category": "Đồ uống",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-69",
+        "name": "[PNS] Bún thang + Coca",
+        "price": 72000,
+        "category": "Cùng Coca Cola",
+        "description": "",
+        "tag": ""
+      }
+    ]
+  },
+  {
+    "id": "rest-mtsgyngr-l8c",
+    "name": "Bánh Mì Lá - Coffee & Tea - 194 C4 Nguyễn Cảnh Dị",
+    "category": "Yêu thích",
+    "address": "194 C4 Phố Nguyễn Cảnh Dị, P. Đại Kim, Hoàng Mai, Hà Nội",
+    "timeOpen": "09:00 - 22:30",
+    "rating": "5.0",
+    "shopeeUrl": "https://shopeefood.vn/ha-noi/banh-mi-la-coffee-tea-194-c4-nguyen-canh-di",
+    "dishes": [
+      {
+        "id": "dish-01",
+        "name": "1 SANDWICH TRỨNG PHÔ MAI + 1 Coca-Cola",
+        "price": 57000,
+        "category": "Món Đang Giảm",
+        "description": "Giảm 22K khi đặt combo có 01 Coca-Cola. Số lượng ưu đãi có hạn.",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-02",
+        "name": "1 THỊT GÀ DAK GALBI + 1 Coca-Cola",
+        "price": 65550,
+        "category": "Món Đang Giảm",
+        "description": "Giảm 22K khi đặt combo có 01 Coca-Cola. Số lượng ưu đãi có hạn.",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-03",
+        "name": "01 Coca-Cola",
+        "price": 19000,
+        "category": "Món Đang Giảm",
+        "description": "Đặt thêm Coca-Cola cùng món ăn tùy thích để tận hưởng ưu đãi từ 22K. Số lượng ưu đãi có hạn",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-04",
+        "name": "1 PATE TRỨNG XÚC XÍCH + 1 Coca-Cola",
+        "price": 58900,
+        "category": "Món Đang Giảm",
+        "description": "Giảm 22K khi đặt combo có 01 Coca-Cola. Số lượng ưu đãi có hạn.",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-05",
+        "name": "2 THỊT GÀ DAK GALBI + 2 Coca-Cola",
+        "price": 124200,
+        "category": "Món Đang Giảm",
+        "description": "Giảm 45K khi đặt combo có 02 Coca-Cola. Số lượng ưu đãi có hạn.",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-06",
+        "name": "SANDWICH THỊT XÔNG KHÓI PHÔ MAI",
+        "price": 49000,
+        "category": "Sandwich",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-07",
+        "name": "SANDWICH BÒ SỐT TERIYAKI",
+        "price": 63000,
+        "category": "Sandwich",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-08",
+        "name": "SANDWICH TRỨNG PHÔ MAI",
+        "price": 40000,
+        "category": "Sandwich",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-09",
+        "name": "SANDWICH THỊT XÔNG KHÓI BƠ TỎI PHÔ MAI",
+        "price": 55000,
+        "category": "Sandwich",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-10",
+        "name": "SANDWICH DĂM BÔNG PHÔ MAI",
+        "price": 49000,
+        "category": "Sandwich",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-11",
+        "name": "SANDWICH NƯỚNG KIỂU PHÁP",
+        "price": 55000,
+        "category": "Sandwich",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-12",
+        "name": "BÒ SỐT TIÊU ĐEN",
+        "price": 55000,
+        "category": "Bánh Mì Lá",
+        "description": "Bánh mì bò sốt tiêu đen, thịt bò được nấu chín đặt vào bánh mì, sau đó kèm thêm các loại rau sống cà chua, hành tây dưa leo và sốt",
+        "tag": ""
+      },
+      {
+        "id": "dish-13",
+        "name": "THỊT GÀ DAK GALBI",
+        "price": 49000,
+        "category": "Bánh Mì Lá",
+        "description": "Bánh mì thịt gà Dak Galbi được làm từ thịt gà xé xợi, tẩm ướp cùng sốt cay của hàn quốc, sau đó được làm chín và cho vào bánh mì ăn kèm cùng rau và sốt rất ngon. Bánh sẽ có vị cay.",
+        "tag": ""
+      },
+      {
+        "id": "dish-14",
+        "name": "CÁ NGỪ ĐẠI DƯƠNG",
+        "price": 49000,
+        "category": "Bánh Mì Lá",
+        "description": "Bánh mì cá ngừ đại dương có hương vị thơm ngon và cân bằng giữa thịt cá ngừ mềm mại và rau sống tươi mát, có vị rất thanh mát",
+        "tag": ""
+      },
+      {
+        "id": "dish-15",
+        "name": "TRUYỀN THỐNG",
+        "price": 25000,
+        "category": "Bánh Mì Kẹp",
+        "description": "Bên trong ổ bánh mì nóng giòn gồm có một lớp pate và trứng chiên thơm, kèm thêm các loại rau, dưa chua, dưa chuột và sốt.",
+        "tag": ""
+      },
+      {
+        "id": "dish-16",
+        "name": "PATE TRỨNG XÚC XÍCH",
+        "price": 42000,
+        "category": "Bánh Mì Kẹp",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-17",
+        "name": "PATE XÁ XÍU",
+        "price": 49000,
+        "category": "Bánh Mì Kẹp",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-18",
+        "name": "Khoai tây chiên - đĩa",
+        "price": 49000,
+        "category": "Fast Food",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-19",
+        "name": "Phô mai chiên - 5 cái",
+        "price": 49000,
+        "category": "Fast Food",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-20",
+        "name": "Nem viên phô mai - 5 cái",
+        "price": 52000,
+        "category": "Fast Food",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-21",
+        "name": "Xúc xích chiên - 5 cái",
+        "price": 63000,
+        "category": "Fast Food",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-22",
+        "name": "COMBO BỮA SÁNG",
+        "price": 77000,
+        "category": "Combo",
+        "description": "Sandwich trứng phô mai + cà phê",
+        "tag": ""
+      },
+      {
+        "id": "dish-23",
+        "name": "Bạc xỉu",
+        "price": 35000,
+        "category": "Cà Phê",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-24",
+        "name": "Cốt dừa",
+        "price": 40000,
+        "category": "Cà Phê",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-25",
+        "name": "Nâu đá",
+        "price": 30000,
+        "category": "Cà Phê",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-26",
+        "name": "Đen đá",
+        "price": 30000,
+        "category": "Cà Phê",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-27",
+        "name": "Bơ",
+        "price": 40000,
+        "category": "Sinh Tố",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-28",
+        "name": "Mãng cầu",
+        "price": 40000,
+        "category": "Sinh Tố",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-29",
+        "name": "Xoài",
+        "price": 40000,
+        "category": "Sinh Tố",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-30",
+        "name": "Cam",
+        "price": 37000,
+        "category": "Nước Ép",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-31",
+        "name": "Dưa hấu",
+        "price": 35000,
+        "category": "Nước Ép",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-32",
+        "name": "Chanh tươi",
+        "price": 35000,
+        "category": "Nước Ép",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-33",
+        "name": "Sữa tươi trân châu đường đen",
+        "price": 38000,
+        "category": "Trà Sữa",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-34",
+        "name": "Sữa chua đá xay",
+        "price": 35000,
+        "category": "Đá Xay",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-35",
+        "name": "Trà đào cam sả",
+        "price": 40000,
+        "category": "Trà Trái Cây",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-36",
+        "name": "Trà xoài bá tước",
+        "price": 40000,
+        "category": "Trà Trái Cây",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-37",
+        "name": "Tắc nha đam",
+        "price": 19000,
+        "category": "Trà Chanh",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-38",
+        "name": "Chanh nha đam",
+        "price": 19000,
+        "category": "Trà Chanh",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-39",
+        "name": "Coca cola",
+        "price": 20000,
+        "category": "Trà Chanh",
+        "description": "",
+        "tag": ""
+      }
+    ]
+  },
+  {
+    "id": "rest-mtsgz7wa-bwb",
+    "name": "Tiệm Nhà Táo - Bánh Ngọt & Bông Lan Trứng Muối - Pháo Đài Láng",
+    "category": "Yêu thích",
+    "address": "Số 4 Ngõ 157 Pháo Đài Láng, P. Láng Thượng, Đống Đa, Hà Nội",
+    "timeOpen": "09:00 - 22:30",
+    "rating": "5.0",
+    "shopeeUrl": "https://shopeefood.vn/ha-noi/tiem-nha-tao-banh-ngot-bong-lan-trung-muoi-duong-lang",
+    "dishes": [
+      {
+        "id": "dish-01",
+        "name": "Bánh Ô Long Nhài Nhãn",
+        "price": 125000,
+        "category": "Must Try ♥️",
+        "description": "Chiếc bánh kem lạnh với nhiều tầng vị đan xen hòa quyện: Từ cốt bánh ô long nhài bông mềm, kem tươi hoa nhài thơm thoảng, đến lớp pudding mềm mịn và nhãn tươi ngọt mọng.",
+        "tag": ""
+      },
+      {
+        "id": "dish-02",
+        "name": "Burnt Cheesecake (Phomai Cháy - 10cm)",
+        "price": 115000,
+        "category": "Must Try ♥️",
+        "description": "Chiếc bánh cheesecake mềm ẩm tan ngay trong miệng. Được tạo nên từ những nguyên liệu cao cấp",
+        "tag": ""
+      },
+      {
+        "id": "dish-03",
+        "name": "Bánh Bông Lan Trứng Muối Cuộn",
+        "price": 55000,
+        "category": "Must Try ♥️",
+        "description": "",
+        "tag": ""
+      },
+      {
+        "id": "dish-04",
+        "name": "Chocolate Rhum",
+        "price": 135000,
+        "category": "Must Try ♥️",
+        "description": "Bánh Chocolate Rhum, đậm vị chocolate, thơm nồng rượu rhum",
+        "tag": ""
+      },
+      {
+        "id": "dish-05",
+        "name": "Panna Cotta",
+        "price": 18000,
+        "category": "MÓN MỚI",
+        "description": "Panna Cotta được làm từ kem tươi, ngọt thanh núng nính, tan trong miệng",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-06",
+        "name": "Su Kem (hộp 9-12 chiếc)",
+        "price": 60000,
+        "category": "MÓN MỚI",
+        "description": "Hộp 9-12 chiếc tuỳ kích thước. su kem nhân custard kem tươi vị vani ngọt thanh mát lạnh",
+        "tag": "Hot"
+      },
+      {
+        "id": "dish-07",
+        "name": "Bông Lan Trứng Muối Mix 2 Loại Sốt (size M)",
+        "price": 75000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Bánh gồm 1 lớp cốt bánh, 1 lớp sốt, mix sốt phomai + sốt dầu trứng, 1.5 trứng muối vụn, ruốc",
+        "tag": ""
+      },
+      {
+        "id": "dish-08",
+        "name": "Bông Lan Trứng Muối Mix 2 Loại Sốt (size L)",
+        "price": 85000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Bánh gồm 2 lớp cốt bánh, 2 lớp sốt, mix sốt phomai + sốt dầu trứng, 2 trứng muối vụn, ruốc",
+        "tag": ""
+      },
+      {
+        "id": "dish-09",
+        "name": "Bông Lan Trứng Muối Sốt Dầu Trứng (size M)",
+        "price": 69000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "1 lớp cốt bánh, 1 lớp sốt, 1.5 trứng muối vụn, ruôcs",
+        "tag": ""
+      },
+      {
+        "id": "dish-10",
+        "name": "Bông Lan Trứng Muối Sốt Dầu Trứng (size L)",
+        "price": 80000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Cốt bánh 2 lớp, sốt 2 lớp, 2 trứng muối vụn, ruôcs",
+        "tag": ""
+      },
+      {
+        "id": "dish-11",
+        "name": "Bông Lan Ruốc Mix Sốt (size M)",
+        "price": 69000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Mix sốt dầu trứng và sốt Phomai, bánh gồm 1 lớp cốt, 1 lớp sốt, ruốc. LƯU Ý KHÔNG CÓ TRỨNG MUỐI",
+        "tag": ""
+      },
+      {
+        "id": "dish-12",
+        "name": "Bông Lan Ruốc Sốt Dầu Trứng ( size M)",
+        "price": 65000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Bánh gồm 1 lớp cốt bánh, 1 lớp sốt dầu trứng và ruốc. LƯU Ý KHÔNG CÓ TRỨNG MUỐI",
+        "tag": ""
+      },
+      {
+        "id": "dish-13",
+        "name": "Bông Lan Ruốc Mix Sốt (size L)",
+        "price": 80000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Mix sốt dầu trứng và sốt Phomai, bánh gồm 2 lớp cốt, 2 lớp sốt, ruốc. LƯU Ý KHÔNG CÓ TRỨNG MUỐI",
+        "tag": ""
+      },
+      {
+        "id": "dish-14",
+        "name": "Bông Lan Ruốc Sốt Dầu Trứng (size L)",
+        "price": 75000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "bánh gồm 2 lớp cốt, 2 lớp sốt dầu trứng, ruốc. LƯU Ý KHÔNG CÓ TRỨNG MUỐI",
+        "tag": ""
+      },
+      {
+        "id": "dish-15",
+        "name": "Bông Lan Trứng Muối Sốt Phomai (size M)",
+        "price": 85000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "bánh gồm 1 lớp cốt, 1 lớp sốt, ruốc, trứng muối",
+        "tag": ""
+      },
+      {
+        "id": "dish-16",
+        "name": "Bông Lan Ruốc Gà Cay",
+        "price": 69000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Bông lan mềm ẩm, ruốc gà cay thơm ngon đậm đà, sốt dầu trứng béo ngậy",
+        "tag": ""
+      },
+      {
+        "id": "dish-17",
+        "name": "Bông Lan Trứng Muối Sốt Phomai (size L)",
+        "price": 95000,
+        "category": "Bông Lan Trứng Muối",
+        "description": "Cốt bánh 2 lớp, sốt 2 lớp, 2 trứng muối vụn, ruốc",
+        "tag": ""
+      },
+      {
+        "id": "dish-18",
+        "name": "Bánh Milo kem Cheese",
+        "price": 60000,
+        "category": "Bánh Kem Lạnh",
+        "description": "Cốt bánh bông lan milo ăn cùng kem milo phomai",
+        "tag": ""
+      },
+      {
+        "id": "dish-19",
+        "name": "Mousse Chanh Leo",
+        "price": 60000,
+        "category": "Bánh Kem Lạnh",
+        "description": "Bánh Chanh leo mát lạnh, chua ngọt dễ anw",
+        "tag": ""
+      },
+      {
+        "id": "dish-20",
+        "name": "Bánh Tiramisu (hộp 450ml)",
+        "price": 90000,
+        "category": "Bánh Kem Lạnh",
+        "description": "Cốt bánh bông lan cacao mềm ẩm được thấm đẫm cà phê và rượu rhum tan trong miệng kết hợp với phần kem được làm từ kem Mascapone, kem Whipping, rượu Rhum thơm ngậy",
+        "tag": ""
+      },
+      {
+        "id": "dish-21",
+        "name": "Bánh Chuối Chocochip",
+        "price": 65000,
+        "category": "Bánh Ngọt",
+        "description": "Bánh chuối nướng thơm lừng kết hợp với socola chip , vị ngọt vừa phải, ngon hơn khi ăn nóng",
+        "tag": ""
+      },
+      {
+        "id": "dish-22",
+        "name": "Brownie Chocolate",
+        "price": 60000,
+        "category": "Bánh Ngọt",
+        "description": "Bánh được bảo quản mát nên khi nhận bánh quý khách có thể làm nóng lại bằng lò vi sóng bánh sẽ mềm ẩm ngon hơn \r\nBánh được làm từ 100% bơ Anchor nên sẽ rất thơm ☺️",
+        "tag": ""
+      },
+      {
+        "id": "dish-23",
+        "name": "Bánh Sinh Nhật Bông Lan Trứng Muối (size 14cm)",
+        "price": 199000,
+        "category": "BÁNH SINH NHẬT (Liên hệ Tiệm 0367400893 để đặt bánh size to hơn)",
+        "description": "Đặt trước 30p giúp shop để bánh được chuẩn bị chu đáo\r\nBánh bao gồm dao dĩa + nến cây\r\nViết chữ note lại giúp shop, tối đa 5 chữ",
+        "tag": ""
+      },
+      {
+        "id": "dish-24",
+        "name": "Nến Số  (1 số)",
+        "price": 7000,
+        "category": "BÁNH SINH NHẬT (Liên hệ Tiệm 0367400893 để đặt bánh size to hơn)",
+        "description": "Khách note số giúp shop aj",
+        "tag": ""
+      },
+      {
+        "id": "dish-25",
+        "name": "Nến Sinh Nhật",
+        "price": 8000,
+        "category": "BÁNH SINH NHẬT (Liên hệ Tiệm 0367400893 để đặt bánh size to hơn)",
+        "description": "Màu ngẫu nhiên",
+        "tag": ""
+      },
+      {
+        "id": "dish-26",
+        "name": "Que Happy Birthday",
+        "price": 10000,
+        "category": "BÁNH SINH NHẬT (Liên hệ Tiệm 0367400893 để đặt bánh size to hơn)",
+        "description": "Mẫu ngẫu nhiên",
+        "tag": ""
+      },
+      {
+        "id": "dish-27",
+        "name": "Bánh Dứa Mini (Hộp 200g 13-15c)",
+        "price": 125000,
+        "category": "Bánh Dứa",
+        "description": "Nhân dứa chua chua ngọt ngọt kết hợp cùng phần vỏ cookies thơm lừng mùi bơ",
+        "tag": ""
+      },
+      {
+        "id": "dish-28",
+        "name": "Bánh Biscotti Siêu Hạt (Gói 150g)",
+        "price": 70000,
+        "category": "Bánh Hạt Dinh Dưỡng",
+        "description": "Bánh siêu nhiều các loại hạt hạnh nhân, óc chó, điều, bí, nho khô, hạt dẻ cười. Không ngọt gắt mà chỉ ngọt tự nhiên từ hạt và quả khô",
+        "tag": ""
+      }
+    ]
+  }
+]

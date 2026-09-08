@@ -1,0 +1,137 @@
+/* FoodSync - Premium Modern Theme & Interactive Animations */
+
+:root {
+  --primary: #ee4d2d;
+  --primary-hover: #d03e1f;
+  --primary-light: #fff5f2;
+  --accent: #059669;
+  --bg-gradient: linear-gradient(135deg, #fff9f6 0%, #fef2f2 50%, #f9fafb 100%);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  color: #1f2937;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Glassmorphism & Cards */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+.card-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 30px -10px rgba(238, 77, 45, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: #fca5a5;
+}
+
+/* Pulse animation on live sync update */
+@keyframes syncHighlight {
+  0% {
+    background-color: rgba(254, 240, 138, 0.8);
+    transform: scale(1.01);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+.sync-updated {
+  animation: syncHighlight 1.5s ease-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.live-pulse {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* Modal Transitions */
+.modal-enter {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+}
+.modal-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Badges & Tags */
+.badge-shopee {
+  background: linear-gradient(135deg, #ee4d2d 0%, #ff6433 100%);
+  color: white;
+}
+
+.badge-tag {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+/* Line clamp */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tab active state */
+.tab-active {
+  color: #ee4d2d;
+  border-bottom: 2px solid #ee4d2d;
+  font-weight: 600;
+  background-color: #fff5f2;
+}
+
+/* Print styles for orders */
+@media print {
+  body {
+    background: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .glass-panel {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+}
