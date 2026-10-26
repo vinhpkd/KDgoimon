@@ -1,4 +1,4 @@
-// Authentic ShopeeFood Restaurants Catalog (100% exact sync - 146 restaurants, 17479 dishes)
+﻿// Dữ liệu Kho Quán ShopeeFood.vn tích hợp sẵn (147 quán)
 const INITIAL_RESTAURANTS = [
     {
         "id":  "dao-che-kim-giang",
@@ -1247,6 +1247,250 @@ const INITIAL_RESTAURANTS = [
                            "price":  12000,
                            "category":  "7. Topping Ngon",
                            "description":  "",
+                           "tag":  ""
+                       }
+                   ]
+    },
+    {
+        "id":  "tiem-che-nha-xanh",
+        "name":  "TIỆM CHÈ NHÀ XANH",
+        "category":  "Ăn vặt/vỉa hè",
+        "address":  "Số 23 Ngõ 178 Giải Phóng, P. Phương Liệt, Thanh Xuân, Hà Nội",
+        "timeOpen":  "10:00 - 21:30",
+        "rating":  "4.9",
+        "shopeeUrl":  "https://shopeefood.vn/ha-noi/tiem-che-nha-xanh",
+        "description":  "Thực đơn chuẩn 100% từ ShopeeFood.vn",
+        "dishes":  [
+                       {
+                           "id":  "dish-01",
+                           "name":  "Khoai môn Tuyết Hoa",
+                           "price":  35000,
+                           "category":  "MÓN MỚI MÙA HẠ",
+                           "description":  "Chè khoai môn nghiền, khoai môn viên, khoai dẻo kèm nước cốt dừa tươi",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-02",
+                           "name":  "Tím trong Mây (Sữa chua )",
+                           "price":  35000,
+                           "category":  "MÓN MỚI MÙA HẠ",
+                           "description":  "Sữa chua dừa kèm khoai mộ nghiền, khoai môn viên, itd ngọt ngon lành",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-03",
+                           "name":  "Khoai môn viên",
+                           "price":  10000,
+                           "category":  "MÓN MỚI MÙA HẠ",
+                           "description":  "Món ăn kèm chè , sữa chua",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-04",
+                           "name":  "Cara môn Bồng Bềnh",
+                           "price":  35000,
+                           "category":  "MÓN MỚI MÙA HẠ",
+                           "description":  "Caramen, khoai môn nghiền, khoai môn viên, khoai dẻo",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-05",
+                           "name":  "Đậu vào tim nhau",
+                           "price":  25000,
+                           "category":  "Thoát Ế ngày Thất tịch",
+                           "description":  "Chè đậu đỏ, chè bưởi, đậu xanh cùng nước cốt dừa tươi thêm trân châu dừa giòn",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-06",
+                           "name":  "Sữa chua Đậu đỏ nên Duyên",
+                           "price":  25000,
+                           "category":  "Thoát Ế ngày Thất tịch",
+                           "description":  "Sữa chua nhà làm kèm đậu đỏ mềm thơm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-07",
+                           "name":  "Red bean Dẻo Crush",
+                           "price":  28000,
+                           "category":  "Thoát Ế ngày Thất tịch",
+                           "description":  "Ngọt- Dẻo- Tình",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-08",
+                           "name":  "Chè bưởi siêu cùi 1kg",
+                           "price":  120000,
+                           "category":  "Ưu đãi lớn- 1kg chè bưởi kèm nước cốt dừa",
+                           "description":  "Chè bưởi siêu cùi nấu theo công thức gia truyền của Tiệm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-09",
+                           "name":  "Chè Thập cẩm",
+                           "price":  25000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Chè bưởi, đậu đỏ, đậu xanh, trân châu dừa, thạch sương sáo. Đặc biệt sử dụng nước cốt dừa tươi. Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-10",
+                           "name":  "Chè bưởi",
+                           "price":  25000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Chè bưởi siêu cùi. Đặc biệt sử dụng nước cốt dừa tươi. Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-11",
+                           "name":  "Chè bưởi thái",
+                           "price":  25000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Chè bưởi, thái. Đặc biệt sử dụng nước cốt dừa tươi.Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-12",
+                           "name":  "Sương sa hạt lựu",
+                           "price":  25000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Sương sa,chè đậu xanh, trân châu dừa, thạch sương sáo, nước lá nếp. Đặc biệt sử dụng nước cốt dừa tươi. Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-13",
+                           "name":  "Chè khoai dẻo",
+                           "price":  38000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Khoai dẻo,pudding, thạch cao quy linh, trân châu dừa, nước lá nếp, trân châu trắng. Đặc biệt sử dụng nước cốt dừa tươi.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-14",
+                           "name":  "Đậu xanh cốt dừa",
+                           "price":  25000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Đậu xanh với nước cốt dừa tươi thêm chút thạch đen và trân châu dừa hương vị ngày xưa cũ",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-15",
+                           "name":  "Chè Thái",
+                           "price":  25000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Chè đậu xanh, thái, thạch sương sáo, trân châu dừa, nước lá nếp. Đặc biệt sử dụng nước cốt dừa tươi. Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-16",
+                           "name":  "Chè dừa non",
+                           "price":  30000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Dừa non, thạch cốt dừa, thạch lá nếp, trân châu trắng, nước lá nếp. Đặc biệt sử dụng nước cốt dừa tươi.Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-17",
+                           "name":  "Chè khoai Môn Tuyết hoa",
+                           "price":  35000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Khoai môn tím nghiền mềm mịn, khoai viên ngọt dịu cùng thêm các viên khoai dẻo, nước cốt dừa tươi thanh thanh",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-18",
+                           "name":  "Nước cốt dừa tươi",
+                           "price":  15000,
+                           "category":  "CHÈ LẠNH",
+                           "description":  "Nước cốt dừa tươi ( phần nhỏ)",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-19",
+                           "name":  "Sầu thập cẩm",
+                           "price":  35000,
+                           "category":  "SẦU RIÊNG",
+                           "description":  "Sầu riêng, chè thập cẩm ( bưởi, đậu xanh, đậu đỏ, trân châu dừa, thạch sương sáo). Đặc biệt sử dụng nước cốt dừa tươi. Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-20",
+                           "name":  "Sầu thái",
+                           "price":  35000,
+                           "category":  "SẦU RIÊNG",
+                           "description":  "Sầu riêng, chè thái (đậu xanh, thạch sương sáo, trân châu dừa, thái, nước lá nếp, nước cốt dừa tươi). Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-21",
+                           "name":  "Sầu dừa non",
+                           "price":  40000,
+                           "category":  "SẦU RIÊNG",
+                           "description":  "Sầu riêng, chè dừa non ( dừa non, thạch cốt dừa, thạch lá nếp, trân châu trắng, nước lá nếp, nước cốt dừa tươi).Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-22",
+                           "name":  "Sầu sương sa",
+                           "price":  35000,
+                           "category":  "SẦU RIÊNG",
+                           "description":  "Sầu riêng, chè sương sa hạt lựu ( đậu xanh, sương sa, trân châu dừa, nước lá nếp, nước cốt dừa tươi, thạch sương sáo) Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-23",
+                           "name":  "Sữa chua hạt đác nha đam",
+                           "price":  32000,
+                           "category":  "SỮA CHUA",
+                           "description":  "Sữa chua nhà làm,hạt đác, nha đam.Đặc biệt sử dụng nước cốt dừa tươi.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-24",
+                           "name":  "Sữa chua đậu đỏ",
+                           "price":  22000,
+                           "category":  "SỮA CHUA",
+                           "description":  "Sữa chua nhà làm và chè đậu đỏ",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-25",
+                           "name":  "Sữa chua dừa Môn",
+                           "price":  35000,
+                           "category":  "SỮA CHUA",
+                           "description":  "Sữa chua trắng mềm nhà làm cùng khoai môn tím nghiền, khoai môn viên ngọt dịu, thạch cốt dừa, trân châu dừa",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-26",
+                           "name":  "Caramen thập cẩm",
+                           "price":  30000,
+                           "category":  "CARAMEN",
+                           "description":  "Caramen, thạch sương sáo, thạch hoa quả, pudding, trân châu dừa. Đặc biệt sử dụng nước cốt dừa tươi.Phần đầy đủ : có thêm hạc đác và trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-27",
+                           "name":  "Xuka ( caramen, pudding, hạc đác, thạch…)",
+                           "price":  32000,
+                           "category":  "CARAMEN",
+                           "description":  "Caramen thập cẩm (pudding, thạch sương sáo, thạch hoa quả, trân châu dừa, nước lá nếp, nước cốt dừa tươi), thêm trân châu trắng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-28",
+                           "name":  "Chaiko (caramen, pudding, hạc đác, trân châu trắng…)",
+                           "price":  34000,
+                           "category":  "CARAMEN",
+                           "description":  "Caramen thập cẩm (pudding, thạch sương sáo, thạch hoa quả, trân châu dừa, nước lá nếp, nước cốt dừa tươi), thêm trân châu trắng, hạt đác",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-29",
+                           "name":  "Cara Môn Bồng Bềnh",
+                           "price":  35000,
+                           "category":  "CARAMEN",
+                           "description":  "Caramen cùng khoai môn tím nghiền, viên khoai môn ngọt nhẹ, chút thạch sương sáo, viên trân châu cùng nước cốt dừa tươi",
                            "tag":  ""
                        }
                    ]
@@ -141730,4 +141974,3 @@ const INITIAL_RESTAURANTS = [
                    ]
     }
 ];
-const SHOPEEFOOD_CATALOG = INITIAL_RESTAURANTS;
