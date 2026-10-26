@@ -1,4 +1,4 @@
-// Authentic ShopeeFood Restaurants Catalog (100% exact sync - 144 restaurants, 17385 dishes)
+// Authentic ShopeeFood Restaurants Catalog (100% exact sync - 146 restaurants, 17479 dishes)
 const INITIAL_RESTAURANTS = [
     {
         "id":  "dao-che-kim-giang",
@@ -856,6 +856,396 @@ const INITIAL_RESTAURANTS = [
                            "name":  "Sữa chua thạch lá nếp trân châu",
                            "price":  25000,
                            "category":  "Thực đơn tổng hợp",
+                           "description":  "",
+                           "tag":  ""
+                       }
+                   ]
+    },
+    {
+        "id":  "tahu-ngon-che-tau-pho-hoa-qua-dam-hh1c-linh-dam",
+        "deliveryId":  417374,
+        "restaurantId":  1265033,
+        "name":  "Tahu Ngon - Chè, Tàu Phớ \u0026 Hoa Quả Dầm - HH1C Linh Đàm",
+        "address":  "Kiot 30, HH1C KĐT Linh Đàm, P. Hoàng Liệt, Hoàng Mai, Hà Nội",
+        "category":  "ChÃ¨ \u0026 TÃ u Phá»›",
+        "rating":  "4.9",
+        "timeOpen":  "08:30 - 22:59",
+        "shopeeUrl":  "https://shopeefood.vn/now-food/shop/1265033",
+        "description":  "Thá»±c Ä‘Æ¡n chÃ­nh thá»©c tá»« ShopeeFood: Tahu Ngon - HH1C Linh ÄÃ m",
+        "dishes":  [
+                       {
+                           "id":  "dish-01",
+                           "name":  "11.Tahu Sen vàng",
+                           "price":  45000,
+                           "category":  "1.Món Đỉnh",
+                           "description":  "Tàu hũ, hạt sen, trân châu hoàng kim, Mít thơm …",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-02",
+                           "name":  "21.Tahu phô mai thạch lá nếp",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) siêu mềm mịn, thanh mát, kết hợp với miếng phô mai béo ngậy, đậm vị. Thêm thạch lá nếp dai dai, thơm lừng, tạo nên một món tráng miệng độc đáo, lạ miệng và cực kỳ cuốn hút.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-03",
+                           "name":  "20.Tahu dừa non đậu biếc",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mịn, mát lạnh, nhuộm màu xanh biếc tự nhiên từ hoa đậu biếc, đẹp mắt. Kết hợp cùng những miếng dừa non tươi ngọt, dẻo thơm. Món tráng miệng thanh mát, hương vị độc đáo và tinh tế.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-04",
+                           "name":  "19.Tahu Caramel",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ Caramel cùng thạch sương sáo “ Note không đậu đỏ” nếu bạn không dùng đậu",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-05",
+                           "name":  "13.Tahu trân châu đường đen",
+                           "price":  30000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mịn, mát lạnh tan chảy trong miệng, kết hợp hoàn hảo cùng trân châu đen dai dai, ấm nóng, và nước đường đen thơm lừng, ngọt dịu. Món tráng miệng thanh mát, hấp dẫn!",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-06",
+                           "name":  "12.Tahu Nguyên bản",
+                           "price":  20000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ Organic thanh mát",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-07",
+                           "name":  "16.Tahu Xoài",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ thanh mát kèm sốt xoài và xoài tươi",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-08",
+                           "name":  "14.Tahu đậu đỏ",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mượt, mát lạnh, kết hợp cùng lớp đậu đỏ được ninh mềm, bùi bùi và ngọt tự nhiên. Hương vị truyền thống, ấm áp và giàu dinh dưỡng, là món tráng miệng cân bằng hoàn hảo.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-09",
+                           "name":  "25.Tahu Dưỡng Nhan",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ Organic thanh mát cơ thể",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-10",
+                           "name":  "15.Tahu kem trứng",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mượt, mát lạnh được phủ một lớp Kem Trứng đánh bông béo ngậy, sánh mịn. Sự kết hợp giữa vị thanh nhẹ của tàu hũ và vị ngọt béo đậm đà của kem trứng tạo nên món tráng miệng độc đáo và cực kỳ hấp dẫn.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-11",
+                           "name":  "22.Tahu Đường nhài",
+                           "price":  30000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ truyền thống cùng nước hoa nhài và trân châu",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-12",
+                           "name":  "17.Tahu Matcha",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mịn, mát lạnh, được nâng tầm với hương vị Matcha trà xanh thơm lừng, có chút chát nhẹ tinh tế. Món tráng miệng độc đáo, vừa thanh mát lại vừa đậm đà hương vị trà.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-13",
+                           "name":  "18.Tahu Chanh leo",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ và sốt chanh leo cùng trân châu",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-14",
+                           "name":  "Tahu nếp cẩm",
+                           "price":  42000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-15",
+                           "name":  "32.Chè Khúc Bạch",
+                           "price":  40000,
+                           "category":  "3.Chè Ngon",
+                           "description":  "Món tráng miệng thanh mát khó cưỡng! Khúc Bạch mềm tan, béo nhẹ vị sữa, được ngâm trong nước dùng thanh ngọt, thơm hương",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-16",
+                           "name":  "33.Chè Xoài Sago",
+                           "price":  45000,
+                           "category":  "3.Chè Ngon",
+                           "description":  "Pudding Xoài kết hợp với xoài tươi thơm nức và hạt Sago dẻo mềm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-17",
+                           "name":  "41.Sữa chua Mít",
+                           "price":  36000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Sữa chua mát lạnh, chua ngọt dịu nhẹ, kết hợp cùng những múi mít tươi giòn, vàng ươm, thơm lừng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-18",
+                           "name":  "43.Hoa quả dầm",
+                           "price":  40000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Món tráng miệng giải nhiệt tuyệt vời! Tổng hợp các loại hoa quả tươi ngon theo mùa, được dầm cùng sữa đặc ngọt béo, sữa chua mát lạnh và đá bào. Hương vị tươi mới, chua ngọt hài hòa, cực kỳ sảng khoái.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-19",
+                           "name":  "42.Sữa chua Mít Caramel",
+                           "price":  45000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Sữa chua mít và Caramel tim",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-20",
+                           "name":  "44.Sữa chua phô mai thạch lá nếp",
+                           "price":  45000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Sự kết hợp hoàn hảo! Sữa chua mát lạnh, chua ngọt hài hòa, thêm vị béo ngậy của phô mai. Điểm nhấn là thạch lá nếp (pandan) dai dai, thơm dịu. Một món tráng miệng đa vị, đa cảm giác, cực kỳ cuốn hút.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-21",
+                           "name":  "Sữa chua nếp cẩm",
+                           "price":  33000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-22",
+                           "name":  "55.Nem chua rán",
+                           "price":  72000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Nem chua được chiên vàng ruộm, vỏ ngoài giòn tan, bên trong vẫn giữ được độ dai và vị chua ngọt đặc trưng của thịt lên men. Món ăn vặt thơm ngon, cực kỳ cuốn hút khi chấm cùng tương ớt cay.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-23",
+                           "name":  "53.Bánh gà 1 đĩa 3 chiếc",
+                           "price":  36000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Bánh gà chiên giòn rụm bên ngoài, nhân thịt gà bên trong đậm đà, nóng hổi và thơm lừng. Phục vụ 3 chiếc một đĩa, là món ăn vặt hoặc ăn kèm lý tưởng, vừa đủ để thưởng thức.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-24",
+                           "name":  "51.Sandwich phô mai",
+                           "price":  20000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Bánh mì sandwich nướng vàng giòn, kẹp giữa là lớp phô mai béo ngậy, nóng chảy. Hương vị đơn giản nhưng kinh điển, thơm lừng và tan chảy, là lựa chọn hoàn hảo cho bữa sáng nhanh gọn hoặc ăn nhẹ.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-25",
+                           "name":  "54.Khoai tây lắc phô mai 1 đĩa",
+                           "price":  40000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Khoai tây chiên nóng giòn, tẩm ướp đậm đà, được lắc đều với bột phô mai béo ngậy, mằn mặn đầy hấp dẫn. Món ăn vặt kinh điển, giòn tan, thơm lừng, khiến bạn không thể ngừng tay!",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-26",
+                           "name":  "63.Trà Mơ má Đào",
+                           "price":  30000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Trà Ô long hoa Dành dành cùng Mơ thơm và Đào",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-27",
+                           "name":  "61.Trà chanh Kimquat",
+                           "price":  20000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Trà Olong hoa Dành dành và Chanh thơm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-28",
+                           "name":  "64.Dành dành Sữa hoa",
+                           "price":  45000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Trà sữa Ô long “không bột béo” hoa Dành dành cùng sữa Bò Tây tạng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-29",
+                           "name":  "65.Matcha latte",
+                           "price":  45000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Matcha trà xanh nguyên chất thơm lừng, hơi chát nhẹ, hòa quyện tuyệt vời cùng lớp sữa tươi béo ngậy, ngọt thanh. Món đồ uống hoàn hảo giúp bạn tỉnh táo và thư giãn.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-30",
+                           "name":  "62.Dưa hấu ép",
+                           "price":  30000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Dưa hấu ép chậm nguyên chất",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-31",
+                           "name":  "Olong xoài",
+                           "price":  39000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-32",
+                           "name":  "98.Caramel (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-33",
+                           "name":  "95.Trân châu Đậu biếc (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-34",
+                           "name":  "97.Trân châu Phomai (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-35",
+                           "name":  "99.Tàu hũ (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-36",
+                           "name":  "92.Thạch Sương Sáo (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-37",
+                           "name":  "107.Dừa Khô (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-38",
+                           "name":  "100.Hạt Sen (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-39",
+                           "name":  "108.Yến Mạch (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-40",
+                           "name":  "91.Trân châu Đen (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "Trân châu thêm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-41",
+                           "name":  "93.Trân châu hoàng kim (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-42",
+                           "name":  "103.Thạch Lá nếp (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-43",
+                           "name":  "96.Dừa non (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-44",
+                           "name":  "106 Đậu Đỏ (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-45",
+                           "name":  "105.Thốt Nốt (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-46",
+                           "name":  "Nếp cẩm",
+                           "price":  11000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-47",
+                           "name":  "103.Sữa Chua (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
                            "description":  "",
                            "tag":  ""
                        }
@@ -140947,6 +141337,393 @@ const INITIAL_RESTAURANTS = [
                            "name":  "Latte",
                            "price":  40000,
                            "category":  "CÀ PHÊ",
+                           "description":  "",
+                           "tag":  ""
+                       }
+                   ]
+    },
+    {
+        "id":  "rest-mvooo4hv-jvi",
+        "name":  "Tahu Ngon - Chè, Tàu Phớ \u0026 Hoa Quả Dầm - HH1C Linh Đàm",
+        "category":  "Quán ăn -Chi nhánh",
+        "address":  "Kiot 30, HH1C KĐT Linh Đàm, P. Hoàng Liệt, Hoàng Mai, Hà Nội",
+        "timeOpen":  "09:00 - 22:30",
+        "rating":  "5.0",
+        "shopeeUrl":  "https://shopeefood.vn/now-food/shop/1265033?shareChannel=copy_link\u0026stm_medium=referral\u0026stm_source=rw\u0026uls_trackid=56vg9ens00lq",
+        "dishes":  [
+                       {
+                           "id":  "dish-01",
+                           "name":  "11.Tahu Sen vàng",
+                           "price":  45000,
+                           "category":  "1.Món Đỉnh",
+                           "description":  "Tàu hũ, hạt sen, trân châu hoàng kim, Mít thơm …",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-02",
+                           "name":  "21.Tahu phô mai thạch lá nếp",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) siêu mềm mịn, thanh mát, kết hợp với miếng phô mai béo ngậy, đậm vị. Thêm thạch lá nếp dai dai, thơm lừng, tạo nên một món tráng miệng độc đáo, lạ miệng và cực kỳ cuốn hút.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-03",
+                           "name":  "20.Tahu dừa non đậu biếc",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mịn, mát lạnh, nhuộm màu xanh biếc tự nhiên từ hoa đậu biếc, đẹp mắt. Kết hợp cùng những miếng dừa non tươi ngọt, dẻo thơm. Món tráng miệng thanh mát, hương vị độc đáo và tinh tế.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-04",
+                           "name":  "19.Tahu Caramel",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ Caramel cùng thạch sương sáo “ Note không đậu đỏ” nếu bạn không dùng đậu",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-05",
+                           "name":  "13.Tahu trân châu đường đen",
+                           "price":  30000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mịn, mát lạnh tan chảy trong miệng, kết hợp hoàn hảo cùng trân châu đen dai dai, ấm nóng, và nước đường đen thơm lừng, ngọt dịu. Món tráng miệng thanh mát, hấp dẫn!",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-06",
+                           "name":  "12.Tahu Nguyên bản",
+                           "price":  20000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ Organic thanh mát",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-07",
+                           "name":  "16.Tahu Xoài",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ thanh mát kèm sốt xoài và xoài tươi",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-08",
+                           "name":  "14.Tahu đậu đỏ",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mượt, mát lạnh, kết hợp cùng lớp đậu đỏ được ninh mềm, bùi bùi và ngọt tự nhiên. Hương vị truyền thống, ấm áp và giàu dinh dưỡng, là món tráng miệng cân bằng hoàn hảo.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-09",
+                           "name":  "25.Tahu Dưỡng Nhan",
+                           "price":  45000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ Organic thanh mát cơ thể",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-10",
+                           "name":  "15.Tahu kem trứng",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mượt, mát lạnh được phủ một lớp Kem Trứng đánh bông béo ngậy, sánh mịn. Sự kết hợp giữa vị thanh nhẹ của tàu hũ và vị ngọt béo đậm đà của kem trứng tạo nên món tráng miệng độc đáo và cực kỳ hấp dẫn.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-11",
+                           "name":  "22.Tahu Đường nhài",
+                           "price":  30000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ truyền thống cùng nước hoa nhài và trân châu",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-12",
+                           "name":  "17.Tahu Matcha",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ (tào phớ) mềm mịn, mát lạnh, được nâng tầm với hương vị Matcha trà xanh thơm lừng, có chút chát nhẹ tinh tế. Món tráng miệng độc đáo, vừa thanh mát lại vừa đậm đà hương vị trà.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-13",
+                           "name":  "18.Tahu Chanh leo",
+                           "price":  36000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "Tàu hũ và sốt chanh leo cùng trân châu",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-14",
+                           "name":  "Tahu nếp cẩm",
+                           "price":  42000,
+                           "category":  "2.Tahu Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-15",
+                           "name":  "32.Chè Khúc Bạch",
+                           "price":  40000,
+                           "category":  "3.Chè Ngon",
+                           "description":  "Món tráng miệng thanh mát khó cưỡng! Khúc Bạch mềm tan, béo nhẹ vị sữa, được ngâm trong nước dùng thanh ngọt, thơm hương",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-16",
+                           "name":  "33.Chè Xoài Sago",
+                           "price":  45000,
+                           "category":  "3.Chè Ngon",
+                           "description":  "Pudding Xoài kết hợp với xoài tươi thơm nức và hạt Sago dẻo mềm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-17",
+                           "name":  "41.Sữa chua Mít",
+                           "price":  36000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Sữa chua mát lạnh, chua ngọt dịu nhẹ, kết hợp cùng những múi mít tươi giòn, vàng ươm, thơm lừng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-18",
+                           "name":  "43.Hoa quả dầm",
+                           "price":  40000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Món tráng miệng giải nhiệt tuyệt vời! Tổng hợp các loại hoa quả tươi ngon theo mùa, được dầm cùng sữa đặc ngọt béo, sữa chua mát lạnh và đá bào. Hương vị tươi mới, chua ngọt hài hòa, cực kỳ sảng khoái.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-19",
+                           "name":  "42.Sữa chua Mít Caramel",
+                           "price":  45000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Sữa chua mít và Caramel tim",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-20",
+                           "name":  "44.Sữa chua phô mai thạch lá nếp",
+                           "price":  45000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "Sự kết hợp hoàn hảo! Sữa chua mát lạnh, chua ngọt hài hòa, thêm vị béo ngậy của phô mai. Điểm nhấn là thạch lá nếp (pandan) dai dai, thơm dịu. Một món tráng miệng đa vị, đa cảm giác, cực kỳ cuốn hút.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-21",
+                           "name":  "Sữa chua nếp cẩm",
+                           "price":  33000,
+                           "category":  "4. Sữa Chua Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-22",
+                           "name":  "55.Nem chua rán",
+                           "price":  72000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Nem chua được chiên vàng ruộm, vỏ ngoài giòn tan, bên trong vẫn giữ được độ dai và vị chua ngọt đặc trưng của thịt lên men. Món ăn vặt thơm ngon, cực kỳ cuốn hút khi chấm cùng tương ớt cay.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-23",
+                           "name":  "53.Bánh gà 1 đĩa 3 chiếc",
+                           "price":  36000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Bánh gà chiên giòn rụm bên ngoài, nhân thịt gà bên trong đậm đà, nóng hổi và thơm lừng. Phục vụ 3 chiếc một đĩa, là món ăn vặt hoặc ăn kèm lý tưởng, vừa đủ để thưởng thức.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-24",
+                           "name":  "51.Sandwich phô mai",
+                           "price":  20000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Bánh mì sandwich nướng vàng giòn, kẹp giữa là lớp phô mai béo ngậy, nóng chảy. Hương vị đơn giản nhưng kinh điển, thơm lừng và tan chảy, là lựa chọn hoàn hảo cho bữa sáng nhanh gọn hoặc ăn nhẹ.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-25",
+                           "name":  "54.Khoai tây lắc phô mai 1 đĩa",
+                           "price":  40000,
+                           "category":  "5.Ăn Ngon",
+                           "description":  "Khoai tây chiên nóng giòn, tẩm ướp đậm đà, được lắc đều với bột phô mai béo ngậy, mằn mặn đầy hấp dẫn. Món ăn vặt kinh điển, giòn tan, thơm lừng, khiến bạn không thể ngừng tay!",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-26",
+                           "name":  "63.Trà Mơ má Đào",
+                           "price":  30000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Trà Ô long hoa Dành dành cùng Mơ thơm và Đào",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-27",
+                           "name":  "61.Trà chanh Kimquat",
+                           "price":  20000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Trà Olong hoa Dành dành và Chanh thơm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-28",
+                           "name":  "64.Dành dành Sữa hoa",
+                           "price":  45000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Trà sữa Ô long “không bột béo” hoa Dành dành cùng sữa Bò Tây tạng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-29",
+                           "name":  "65.Matcha latte",
+                           "price":  45000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Matcha trà xanh nguyên chất thơm lừng, hơi chát nhẹ, hòa quyện tuyệt vời cùng lớp sữa tươi béo ngậy, ngọt thanh. Món đồ uống hoàn hảo giúp bạn tỉnh táo và thư giãn.",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-30",
+                           "name":  "62.Dưa hấu ép",
+                           "price":  30000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "Dưa hấu ép chậm nguyên chất",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-31",
+                           "name":  "Olong xoài",
+                           "price":  39000,
+                           "category":  "6.Trà Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-32",
+                           "name":  "98.Caramel (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-33",
+                           "name":  "95.Trân châu Đậu biếc (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-34",
+                           "name":  "97.Trân châu Phomai (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-35",
+                           "name":  "99.Tàu hũ (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-36",
+                           "name":  "92.Thạch Sương Sáo (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-37",
+                           "name":  "107.Dừa Khô (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-38",
+                           "name":  "100.Hạt Sen (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-39",
+                           "name":  "108.Yến Mạch (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-40",
+                           "name":  "91.Trân châu Đen (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "Trân châu thêm",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-41",
+                           "name":  "93.Trân châu hoàng kim (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-42",
+                           "name":  "103.Thạch Lá nếp (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-43",
+                           "name":  "96.Dừa non (Topping)",
+                           "price":  6000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-44",
+                           "name":  "106 Đậu Đỏ (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-45",
+                           "name":  "105.Thốt Nốt (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-46",
+                           "name":  "Nếp cẩm",
+                           "price":  11000,
+                           "category":  "7. Topping Ngon",
+                           "description":  "",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-47",
+                           "name":  "103.Sữa Chua (Topping)",
+                           "price":  12000,
+                           "category":  "7. Topping Ngon",
                            "description":  "",
                            "tag":  ""
                        }

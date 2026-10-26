@@ -199,12 +199,22 @@ function Fetch-ShopeeFoodMenu([string]$shopeeUrl) {
                 break;
             }
         }
-        const uRes = await apiMod.get('/api/delivery/get_from_url', { url: '$relShopeePath' });
-        const delivId = uRes?.reply?.delivery_id;
+        let delivId = null;
+        let info = {};
+        const shopMatch = '$relShopeePath'.match(/now-food\/shop\/(\d+)/i);
+        if (shopMatch) {
+            const restId = parseInt(shopMatch[1], 10);
+            const dRes1 = await apiMod.get('/api/delivery/get_detail', { id_type: 1, request_id: restId });
+            info = dRes1?.reply?.delivery_detail || {};
+            delivId = info.delivery_id || restId;
+        } else {
+            const uRes = await apiMod.get('/api/delivery/get_from_url', { url: '$relShopeePath' });
+            delivId = uRes?.reply?.delivery_id;
+            if (!delivId) return JSON.stringify({ ok: false });
+            const dRes = await apiMod.get('/api/delivery/get_detail', { id_type: 2, request_id: delivId });
+            info = dRes?.reply?.delivery_detail || {};
+        }
         if (!delivId) return JSON.stringify({ ok: false });
-
-        const dRes = await apiMod.get('/api/delivery/get_detail', { id_type: 2, request_id: delivId });
-        const info = dRes?.reply?.delivery_detail || {};
 
         const mRes = await apiMod.get('/api/dish/get_delivery_dishes', { id_type: 2, request_id: delivId });
         const menuInfos = mRes?.reply?.menu_infos || [];

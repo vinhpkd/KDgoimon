@@ -576,48 +576,66 @@ async function triggerBackgroundMenuUpdate(restaurantId, shopeeUrl, showFeedback
   }
 
   try {
-    const res = await apiFetch('/api/fetch-shopee-menu', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: shopeeUrl })
-    });
+    let fresh = null;
 
-    if (res.ok) {
-      const data = await res.json();
-      let restData = data;
-      if (Array.isArray(data)) {
-        restData = data.find(d => d && typeof d === 'object' && d.restaurant) || data[data.length - 1] || {};
+    // 1. Try Cloud Scraper first (Works on GitHub Pages without local server)
+    if (showFeedback) {
+      try {
+        const cloudRes = await fetchShopeeMenuFromCloud(shopeeUrl);
+        if (cloudRes && cloudRes.success && cloudRes.restaurant && cloudRes.restaurant.dishes.length > 0) {
+          fresh = cloudRes.restaurant;
+        }
+      } catch (e) {}
+    }
+
+    // 2. Fallback to Local Server if running
+    if (!fresh) {
+      const res = await apiFetch('/api/fetch-shopee-menu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: shopeeUrl })
+      });
+
+      if (res && res.ok) {
+        const data = await res.json();
+        let restData = data;
+        if (Array.isArray(data)) {
+          restData = data.find(d => d && typeof d === 'object' && d.restaurant) || data[data.length - 1] || {};
+        }
+
+        if (restData.success && restData.restaurant && Array.isArray(restData.restaurant.dishes) && restData.restaurant.dishes.length > 0) {
+          fresh = restData.restaurant;
+        }
       }
+    }
 
-      if (restData.success && restData.restaurant && Array.isArray(restData.restaurant.dishes) && restData.restaurant.dishes.length > 0) {
-        const fresh = restData.restaurant;
-        const target = state.restaurants.find(r => r.id === restaurantId);
-        
-        if (target) {
-          target.name = fresh.name || target.name;
-          target.address = fresh.address || target.address;
-          target.timeOpen = fresh.timeOpen || target.timeOpen;
-          target.category = fresh.category || target.category;
-          target.dishes = fresh.dishes;
+    if (fresh && Array.isArray(fresh.dishes) && fresh.dishes.length > 0) {
+      const target = state.restaurants.find(r => r.id === restaurantId);
+      
+      if (target && (fresh.dishes.length >= (target.dishes?.length || 0) || showFeedback)) {
+        target.name = fresh.name || target.name;
+        target.address = fresh.address || target.address;
+        target.timeOpen = fresh.timeOpen || target.timeOpen;
+        target.category = fresh.category || target.category;
+        target.dishes = fresh.dishes;
 
-          try {
-            await apiFetch('/api/restaurants', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(target)
-            });
-          } catch (e) {}
+        try {
+          await apiFetch('/api/restaurants', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(target)
+          });
+        } catch (e) {}
 
-          saveRestaurantsToLocal();
-          broadcastMqtt(MQTT_TOPIC_RESTAURANTS, { type: 'RESTAURANT_SAVED', restaurant: target });
+        saveRestaurantsToLocal();
+        broadcastMqtt(MQTT_TOPIC_RESTAURANTS, { type: 'RESTAURANT_SAVED', restaurant: target });
 
-          if (state.currentRestaurantId === restaurantId) {
-            renderRestaurantSelector();
-            renderCurrentRestaurantInfo();
-            renderCategoryPills();
-            renderDishesGrid();
-            showToast(`✨ Đã cập nhật ${fresh.dishes.length} món mới nhất từ ShopeeFood!`, 'success');
-          }
+        if (state.currentRestaurantId === restaurantId) {
+          renderRestaurantSelector();
+          renderCurrentRestaurantInfo();
+          renderCategoryPills();
+          renderDishesGrid();
+          showToast(`✨ Đã cập nhật ${fresh.dishes.length} món mới nhất từ ShopeeFood!`, 'success');
         }
       }
     }
@@ -1464,27 +1482,45 @@ function slugToReadableName(slug) {
     .join(' ');
 }
 
-// Universal Text Dish Parser (parses text lines into structured dishes & prices)
+// Universal Text Dish Parser (parses both single-line and multi-line Jina Markdown dishes & prices)
 function parseDishesFromText(rawText, defaultCategory = 'Món Ngon') {
   if (!rawText) return [];
   const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const dishes = [];
   const seen = new Set();
   let currentCategory = defaultCategory;
+  let pendingName = '';
+  let pendingDesc = '';
   
-  // Price regex matching: 15.000, 15000, 15k, 15,000đ, 15.000 vnđ
+  // Price regex matching: 15.000, 15000, 15k, 15,000đ, 15.000 vnđ, 45.000 đ
   const priceRegex = /([0-9]{1,3}(?:[.,][0-9]{3})+|\b[0-9]{2,3}k\b|\b[0-9]{4,6}\b)\s*(?:đ|vnđ|d|k)?/i;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // Filter promo junk
-    if (line.match(/^(?:Mã giảm|HOME CREDIT|Đã bán|Đánh giá|Thích|ShopeeFood|Phí giao|Freeship|Copy code|Xem thêm|Tất cả|Voucher|Giảm giá|Image \d+:)/i)) {
+    // Filter promo junk, UI noise, city counts (e.g. "Hà Nội 70302 địa điểm")
+    if (
+      line.match(/^(?:Mã giảm|HOME CREDIT|Đã bán|Đánh giá|Thích|ShopeeFood|Phí giao|Freeship|Copy code|Xem thêm|Tất cả|Voucher|Giảm giá|Image \d+:|!\[\[?Image|Title:|URL Source:|Markdown Content:|Discovery|Tiếng Anh|Tiếng Việt|Quét mã|Thực đơn|\+$)/i) ||
+      line.includes('địa điểm') ||
+      line.includes('http://') ||
+      line.includes('https://') ||
+      line.match(/^\d{2}:\d{2}\s*-\s*\d{2}:\d{2}$/)
+    ) {
       continue;
     }
 
-    // Category detection (ALL CAPS or Markdown header)
-    if (line.startsWith('##') || line.startsWith('#') || (line.length >= 3 && line.length <= 40 && line === line.toUpperCase() && !line.match(priceRegex))) {
+    // Check if line is a Markdown dish header: "## 11.Tahu Sen vàng" or "## Tahu nếp cẩm"
+    if (line.startsWith('## ')) {
+      pendingName = line.replace(/^##\s*/, '').trim();
+      pendingDesc = '';
+      continue;
+    }
+
+    // Check if line is a category header (e.g., "1.Món Đỉnh", "2.Tahu Ngon" or ALL CAPS without price)
+    if (
+      (line.match(/^\d+\s*\.\s*[^\d]+$/) && line.length <= 35 && !line.match(priceRegex)) ||
+      (line.length >= 3 && line.length <= 40 && line === line.toUpperCase() && !line.match(priceRegex) && !line.match(/^\d+$/))
+    ) {
       currentCategory = line.replace(/^[#\s\-*]+/, '').trim() || defaultCategory;
       continue;
     }
@@ -1492,171 +1528,234 @@ function parseDishesFromText(rawText, defaultCategory = 'Món Ngon') {
     const pMatch = line.match(priceRegex);
     if (pMatch) {
       const priceNum = parseInt(pMatch[1].toLowerCase().replace(/k/g, '000').replace(/[.,]/g, ''), 10);
-      let namePart = line.replace(pMatch[0], '')
-        .replace(/^[\d\s.\-–:)]+/, '') // remove leading bullet numbers
+      let inlineName = line.replace(pMatch[0], '')
+        .replace(/^[\d\s.\-–:)]+/, '')
         .replace(/[-–:.,\s]+$/, '')
         .trim();
 
-      if (namePart.length >= 2 && priceNum >= 1000 && !seen.has(namePart.toLowerCase())) {
-        seen.add(namePart.toLowerCase());
+      const finalName = inlineName.length >= 2 ? inlineName : pendingName;
+      if (finalName && finalName.length >= 2 && priceNum >= 1000 && priceNum <= 5000000 && !seen.has(finalName.toLowerCase())) {
+        seen.add(finalName.toLowerCase());
         dishes.push({
           id: 'dish-' + (dishes.length + 1).toString().padStart(2, '0'),
-          name: namePart,
+          name: finalName,
           price: priceNum,
           category: currentCategory,
-          description: '',
+          description: inlineName.length >= 2 ? '' : pendingDesc,
           tag: ''
         });
+        pendingName = '';
+        pendingDesc = '';
+        continue;
       }
+    }
+
+    // If we already have a pendingName from `## Dish Name`, this line is likely the description
+    if (pendingName) {
+      if (!pendingDesc && line.length >= 3 && line.length <= 250) {
+        pendingDesc = line;
+      }
+    } else if (line.length >= 2 && line.length <= 70 && !line.match(/^\d+$/)) {
+      pendingName = line;
+      pendingDesc = '';
     }
   }
 
   return dishes;
 }
 
-// Multi-cloud parser for ShopeeFood URLs
-async function fetchShopeeMenuFromCloud(url) {
-  const cleanUrl = normalizeShopeeUrl(url);
-  const urlParts = cleanUrl.split('/').filter(p => p.length > 0);
-  const slug = urlParts[urlParts.length - 1] || '';
-  const readableNameFromSlug = slugToReadableName(slug);
-
-  let html = '';
-  let lastError = null;
-
-  // Strategy 1: Jina AI HTML Reader with Deep Selectors
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 22000);
-    const jinaUrl = 'https://r.jina.ai/' + cleanUrl;
-    
-    const res = await fetch(jinaUrl, {
-      signal: controller.signal,
-      headers: {
-        'X-Return-Format': 'html',
-        'X-Wait-For-Selector': '.item-restaurant-name, .current-price, .restaurant-container, h2, h1, .name-restaurant',
-        'X-Timeout': '20'
-      }
-    });
-    clearTimeout(timeoutId);
-    if (res.ok) {
-      html = await res.text();
-    }
-  } catch (err) {
-    lastError = err;
-  }
-
-  // Strategy 2: Jina AI Markdown Fallback (Faster, avoids complex DOM issues)
-  if (!html || html.length < 500) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 18000);
-      const jinaUrl = 'https://r.jina.ai/' + cleanUrl;
-      
-      const res = await fetch(jinaUrl, {
-        signal: controller.signal,
-        headers: {
-          'X-Timeout': '15'
-        }
-      });
-      clearTimeout(timeoutId);
-      if (res.ok) {
-        html = await res.text();
-      }
-    } catch (err) {
-      lastError = err;
-    }
-  }
-
-  if (!html || html.length < 200) {
-    throw new Error('Không thể kết nối đến máy chủ ShopeeFood. Vui lòng kiểm tra lại kết nối mạng!');
-  }
-
-  // Check if ShopeeFood redirected to Home Page (404 shop or expired URL)
-  if (html.includes('Order Đồ ăn in') && html.includes('Food Delivery & Shipping Service') && !html.includes('item-restaurant-name')) {
-    throw new Error('Quán ăn không tồn tại hoặc đã thay đổi đường dẫn trên ShopeeFood. Vui lòng mở ShopeeFood.vn để lấy link mới nhất của quán!');
-  }
+// Helper to parse HTML or Markdown content from Jina into restaurant object
+function extractRestaurantFromHtmlOrMd(html, cleanUrl, defaultNameFromSlug) {
+  if (!html || html.length < 200) return null;
 
   // 1. Extract Restaurant Name
   let restName = '';
   const nameMatch = html.match(/<h1[^>]*class="[^"]*name-restaurant[^"]*"[^>]*>([\s\S]*?)<\/h1>/i);
   if (nameMatch) {
-    restName = nameMatch[1].replace(/<[^>]+>/g, '').trim();
+    restName = nameMatch[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
   }
   if (!restName) {
     const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i) || html.match(/Title:\s*([^\n\r]+)/i);
     if (titleMatch) {
-      restName = titleMatch[1].split('|')[0].replace(/Order Đồ ăn in.*|Food Delivery.*/i, '').trim();
+      restName = titleMatch[1].split('|')[0].replace(/Order Đồ ăn in.*|Food Delivery.*/i, '').replace(/&amp;/g, '&').trim();
     }
   }
-  if (!restName && readableNameFromSlug) {
-    restName = readableNameFromSlug;
+  if (!restName && defaultNameFromSlug && !/^\d+$/.test(defaultNameFromSlug)) {
+    restName = defaultNameFromSlug;
   }
 
   // 2. Extract Address
   let address = '';
   const addrMatch = html.match(/<div[^>]*class="[^"]*address-restaurant[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
   if (addrMatch) {
-    address = addrMatch[1].replace(/<[^>]+>/g, '').trim();
+    address = addrMatch[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
+  }
+  if (!address) {
+    const jsonAddrMatch = html.match(/"streetAddress"\s*:\s*"([^"]+)"/i);
+    if (jsonAddrMatch) {
+      address = jsonAddrMatch[1].trim();
+    }
   }
   if (!address && cleanUrl.includes('/ha-noi/')) {
     address = 'Hà Nội';
   } else if (!address && cleanUrl.includes('/ho-chi-minh/')) {
     address = 'TP. Hồ Chí Minh';
-  } else if (!address && cleanUrl.includes('/da-nang/')) {
-    address = 'Đà Nẵng';
+  } else if (!address) {
+    address = 'Hà Nội';
   }
 
   // 3. Extract Category
   let category = 'Món Ăn & Đồ Uống';
   const catMatch = html.match(/<div[^>]*class="[^"]*kind-restaurant[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
   if (catMatch) {
-    category = catMatch[1].replace(/<[^>]+>/g, '').trim();
+    category = catMatch[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').replace(/-\s*Chi nhánh/i, '').trim();
   }
 
-  // 4. Extract Dishes: Pattern A (DOM Cards)
+  // 4. Extract Dishes: Pattern A (DOM Cards with Section Category Detection)
   let dishes = [];
   const seen = new Set();
-  const dishRegex = /<h2[^>]*class="[^"]*item-restaurant-name[^"]*"[^>]*>([\s\S]*?)<\/h2>(?:\s*<div[^>]*class="[^"]*item-restaurant-desc[^"]*"[^>]*>([\s\S]*?)<\/div>)?[\s\S]*?<div[^>]*class="[^"]*current-price[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
-  let match;
-  while ((match = dishRegex.exec(html)) !== null) {
-    const dName = match[1].replace(/<[^>]+>/g, '').trim();
-    const desc = (match[2] || '').replace(/<[^>]+>/g, '').trim();
-    const priceRaw = match[3].replace(/<[^>]+>/g, '').replace(/[^\d]/g, '');
-    const price = parseInt(priceRaw, 10);
 
-    if (dName && !seen.has(dName.toLowerCase()) && price >= 1000) {
-      seen.add(dName.toLowerCase());
-      dishes.push({
-        id: 'dish-' + (dishes.length + 1).toString().padStart(2, '0'),
-        name: dName,
-        price: price,
-        description: desc,
-        category: category,
-        tag: ''
-      });
+  // Split by menu-group or title-menu if present so each dish gets its exact section category!
+  const sectionParts = html.split(/<div[^>]*class="[^"]*title-menu[^"]*"[^>]*>/i);
+  if (sectionParts.length > 1) {
+    for (let s = 1; s < sectionParts.length; s++) {
+      const part = sectionParts[s];
+      const secCatEnd = part.indexOf('</div>');
+      const secCat = secCatEnd >= 0 ? part.substring(0, secCatEnd).replace(/<[^>]+>/g, '').trim() : category;
+      const dishRegex = /<h2[^>]*class="[^"]*item-restaurant-name[^"]*"[^>]*>([\s\S]*?)<\/h2>(?:\s*<div[^>]*class="[^"]*item-restaurant-desc[^"]*"[^>]*>([\s\S]*?)<\/div>)?[\s\S]*?<div[^>]*class="[^"]*current-price[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
+      let m;
+      while ((m = dishRegex.exec(part)) !== null) {
+        const dName = m[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
+        const desc = (m[2] || '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
+        const priceRaw = m[3].replace(/<[^>]+>/g, '').replace(/[^\d]/g, '');
+        const price = parseInt(priceRaw, 10);
+        if (dName && !seen.has(dName.toLowerCase()) && price >= 1000) {
+          seen.add(dName.toLowerCase());
+          dishes.push({
+            id: 'dish-' + (dishes.length + 1).toString().padStart(2, '0'),
+            name: dName,
+            price: price,
+            description: desc,
+            category: secCat || category,
+            tag: ''
+          });
+        }
+      }
     }
   }
 
-  // Pattern B: Text Line Parser Fallback
+  // Fallback Pattern A2: Global DOM Cards
   if (dishes.length === 0) {
-    const plainText = html.replace(/<[^>]+>/g, '\n');
+    const dishRegex = /<h2[^>]*class="[^"]*item-restaurant-name[^"]*"[^>]*>([\s\S]*?)<\/h2>(?:\s*<div[^>]*class="[^"]*item-restaurant-desc[^"]*"[^>]*>([\s\S]*?)<\/div>)?[\s\S]*?<div[^>]*class="[^"]*current-price[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
+    let match;
+    while ((match = dishRegex.exec(html)) !== null) {
+      const dName = match[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
+      const desc = (match[2] || '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
+      const priceRaw = match[3].replace(/<[^>]+>/g, '').replace(/[^\d]/g, '');
+      const price = parseInt(priceRaw, 10);
+
+      if (dName && !seen.has(dName.toLowerCase()) && price >= 1000) {
+        seen.add(dName.toLowerCase());
+        dishes.push({
+          id: 'dish-' + (dishes.length + 1).toString().padStart(2, '0'),
+          name: dName,
+          price: price,
+          description: desc,
+          category: category,
+          tag: ''
+        });
+      }
+    }
+  }
+
+  // Pattern B: Markdown / Plain Text Parser
+  if (dishes.length === 0) {
+    const plainText = html.includes('<html') ? html.replace(/<[^>]+>/g, '\n') : html;
     dishes = parseDishesFromText(plainText, category);
   }
 
-  if (dishes.length === 0) {
-    throw new Error('Không tìm thấy danh sách món ăn trong liên kết này. Quán có thể đang tạm nghỉ hoặc link bị thay đổi!');
-  }
+  if (dishes.length === 0) return null;
 
   return {
-    success: true,
-    restaurant: {
-      name: restName || 'Quán ShopeeFood',
-      address: address || 'Hà Nội',
-      category: category || 'Món ngon',
-      dishes: dishes
-    }
+    name: restName || 'Quán ShopeeFood',
+    address: address || 'Hà Nội',
+    category: category || 'Món ngon',
+    dishes: dishes
   };
+}
+
+// Multi-cloud parser for ShopeeFood URLs (Works 100% on GitHub Pages without local server)
+async function fetchShopeeMenuFromCloud(url) {
+  const cleanUrl = normalizeShopeeUrl(url);
+  const urlParts = cleanUrl.split('/').filter(p => p.length > 0);
+  const slug = urlParts[urlParts.length - 1] || '';
+  const readableNameFromSlug = slugToReadableName(slug);
+  const jinaUrl = 'https://r.jina.ai/' + cleanUrl;
+
+  // Strategy 1: Jina AI HTML Reader WITHOUT strict X-Wait-For-Selector (prevents timeout & empty 2924-byte shell on /now-food/shop/... URLs)
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 22000);
+    const res = await fetch(jinaUrl, {
+      signal: controller.signal,
+      headers: {
+        'X-Return-Format': 'html',
+        'X-Timeout': '20'
+      }
+    });
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      const html = await res.text();
+      const extracted = extractRestaurantFromHtmlOrMd(html, cleanUrl, readableNameFromSlug);
+      if (extracted && extracted.dishes.length > 0) {
+        return { success: true, restaurant: extracted };
+      }
+    }
+  } catch (err) {}
+
+  // Strategy 2: Jina AI Default Markdown Reader (Super reliable for both /now-food/shop/:id and /:city/:slug)
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 22000);
+    const res = await fetch(jinaUrl, {
+      signal: controller.signal,
+      headers: {
+        'X-Timeout': '20'
+      }
+    });
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      const md = await res.text();
+      const extracted = extractRestaurantFromHtmlOrMd(md, cleanUrl, readableNameFromSlug);
+      if (extracted && extracted.dishes.length > 0) {
+        return { success: true, restaurant: extracted };
+      }
+    }
+  } catch (err) {}
+
+  // Strategy 3: Jina AI HTML Reader WITH Wait-For-Selector (For slow-rendering pages)
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 25000);
+    const res = await fetch(jinaUrl, {
+      signal: controller.signal,
+      headers: {
+        'X-Return-Format': 'html',
+        'X-Wait-For-Selector': '.item-restaurant-name, .current-price, h1.name-restaurant',
+        'X-Timeout': '22'
+      }
+    });
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      const html = await res.text();
+      const extracted = extractRestaurantFromHtmlOrMd(html, cleanUrl, readableNameFromSlug);
+      if (extracted && extracted.dishes.length > 0) {
+        return { success: true, restaurant: extracted };
+      }
+    }
+  } catch (err) {}
+
+  throw new Error('Không tìm thấy danh sách món ăn trong liên kết này. Quán có thể đang tạm nghỉ hoặc link bị thay đổi!');
 }
 
 // Toggle Quick Paste Accordion in Modal
@@ -1764,8 +1863,9 @@ async function updateRestaurantMenuFromUrl() {
     const slug = (urlParts[urlParts.length - 1] || '').toLowerCase();
     const slugTokens = slug.split('-').filter(t => t.length >= 2);
 
-    // 1. Check if URL matches existing saved catalog restaurants (Exact or Fuzzy Slug Match - Instant 0ms)
+    // 1. Check if URL matches existing saved catalog restaurants (Exact URL, Slug, DeliveryID, or RestaurantID Match - Instant 0ms)
     let matched = catalog.find(r => {
+      if (slug && /^\d+$/.test(slug) && (String(r.deliveryId) === slug || String(r.restaurantId) === slug)) return true;
       if (!r.shopeeUrl) return false;
       const rUrl = normalizeShopeeUrl(r.shopeeUrl).toLowerCase();
       return rUrl === urlLower || (slug && rUrl.endsWith('/' + slug)) || (r.id && r.id.toLowerCase() === slug);
