@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giải Mã Năng Lượng Số - Phân Tích SĐT & CCCD Chuyên Sâu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header no-print">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">🧭</div>
+        <div>
+          <div class="brand-badge">HỆ THỐNG NGHIỆM LÝ BÁT CỰC LINH SỐ</div>
+          <h1 class="brand-title">Giải Mã Năng Lượng Số</h1>
+          <p class="brand-subtitle">Phân tích Số Điện Thoại • Căn Cước Công Dân • Linh Số Bát Pháp (00–99)</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-outline-light btn-sm" id="btnOpenExpertModal" title="Cài đặt thông tin chuyên gia">
+          👤 Chuyên gia: <strong id="headerExpertName">Kim Hạ / Chiến Compass</strong>
+        </button>
+        <button type="button" class="btn btn-gold btn-sm" id="btnCopyZalo">
+          📋 Copy Báo Cáo Zalo
+        </button>
+        <button type="button" class="btn btn-light btn-sm" id="btnPrintReport">
+          🖨️ In / Xuất PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-bar">
+      <div class="container nav-tabs" role="tablist">
+        <button type="button" class="nav-tab active" data-tab="tab-analyzer" role="tab" aria-selected="true">
+          <span class="tab-icon">📱</span>
+          <span>Phân Tích SĐT &amp; CCCD</span>
+        </button>
+        <button type="button" class="nav-tab" data-tab="tab-linh-so" role="tab" aria-selected="false">
+          <span class="tab-icon">📖</span>
+          <span>Linh Số Bát Pháp (00–99)</span>
+        </button>
+        <button type="button" class="nav-tab" data-tab="tab-tu-truong" role="tab" aria-selected="false">
+          <span class="tab-icon">☯️</span>
+          <span>8 Từ Trường &amp; Chuyển Hóa</span>
+        </button>
+        <button type="button" class="nav-tab" data-tab="tab-tra-999" role="tab" aria-selected="false">
+          <span class="tab-icon">🔢</span>
+          <span>Bảng Tra 1000 Số (000–999)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- ==================== TAB 1: PHÂN TÍCH SĐT & CCCD ==================== -->
+    <section id="tab-analyzer" class="tab-panel active">
+      <!-- Input Card -->
+      <div class="card input-card no-print">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="section-title">📝 Nhập Thông Tin Khách Hàng</h2>
+            <p class="section-desc">Nhập Số điện thoại và/hoặc Căn cước công dân để hệ thống tự động giải mã theo công thức chuẩn file gốc.</p>
+          </div>
+          <div class="preset-group">
+            <span class="preset-label">Mẫu có sẵn từ Excel:</span>
+            <button type="button" class="btn btn-chip active" data-preset="tra_so">
+              Mẫu 1: Phạm Thị Phướn (Sheet TRA SỐ)
+            </button>
+            <button type="button" class="btn btn-chip" data-preset="dien_thoai">
+              Mẫu 2: Chiến Compass (Sheet ĐIỆN THOẠI)
+            </button>
+            <button type="button" class="btn btn-chip btn-chip-clear" id="btnClearInputs">
+              🔄 Nhập mới
+            </button>
+          </div>
+        </div>
+
+        <form id="analyzerForm" class="input-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="inpName">Họ và tên khách hàng</label>
+            <input type="text" id="inpName" class="form-control" placeholder="VD: Phạm Thị Phướn" value="Phạm Thị Phướn" />
+          </div>
+
+          <div class="form-group">
+            <label for="inpPhone">
+              Số điện thoại <span class="badge-hint">10 số</span>
+            </label>
+            <input type="text" id="inpPhone" class="form-control input-mono" placeholder="VD: 0378673514" value="0378673514" maxlength="15" />
+            <small class="field-help" id="phoneHelpText">Tách 9 số sau số 0 đầu tiên ➔ 7 tổ hợp 3 số &amp; 8 cặp số</small>
+          </div>
+
+          <div class="form-group">
+            <label for="inpCCCD">
+              Số Căn cước công dân (CCCD) <span class="badge-hint">12 số</span>
+            </label>
+            <input type="text" id="inpCCCD" class="form-control input-mono" placeholder="VD: 034173017102" value="034173017102" maxlength="15" />
+            <small class="field-help" id="cccdHelpText">Tách 11 cặp số liên tiếp tương ứng Đại vận từ 0 đến 70 tuổi</small>
+          </div>
+
+          <div class="form-group form-group-sm">
+            <label for="inpYears">Năm dùng SĐT</label>
+            <input type="text" id="inpYears" class="form-control" placeholder="VD: 1 năm, 3 năm..." value="1" />
+          </div>
+
+          <div class="form-group form-group-sm">
+            <label for="inpJob">Nghề nghiệp</label>
+            <input type="text" id="inpJob" class="form-control" placeholder="VD: Kinh doanh, Chuyên gia..." value="Chuyên gia" />
+          </div>
+
+          <div class="form-group form-group-actions">
+            <label>Chế độ hiển thị diễn giải</label>
+            <div class="toggle-group">
+              <label class="toggle-pill" title="Hiển thị đầy đủ diễn giải của cả 7 cụm 3 số và 11 mốc tuổi CCCD">
+                <input type="checkbox" id="chkShowAllMeanings" checked />
+                <span>Hiện đầy đủ mọi dòng diễn giải</span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Printable Report Container -->
+      <div id="printableReport" class="report-container">
+        <!-- Print-only Banner -->
+        <div class="print-banner">
+          <div class="print-banner-top">BÁO CÁO PHÂN TÍCH NHANH SỐ ĐIỆN THOẠI &amp; CĂN CƯỚC CÔNG DÂN</div>
+          <div class="print-banner-sub" id="printExpertHeader">Chiến Compass • Chuyên gia Giải Mã Năng Lượng Số</div>
+        </div>
+
+        <!-- Customer Profile Summary Strip -->
+        <div class="customer-summary-bar">
+          <div class="cs-item">
+            <span class="cs-label">HỌ TÊN KHÁCH HÀNG</span>
+            <strong class="cs-value" id="outCustomerName">Phạm Thị Phướn</strong>
+          </div>
+          <div class="cs-item">
+            <span class="cs-label">SỐ ĐIỆN THOẠI</span>
+            <strong class="cs-value cs-mono cs-highlight" id="outCustomerPhone">0378673514</strong>
+          </div>
+          <div class="cs-item">
+            <span class="cs-label">CĂN CƯỚC CÔNG DÂN</span>
+            <strong class="cs-value cs-mono" id="outCustomerCCCD">034173017102</strong>
+          </div>
+          <div class="cs-item">
+            <span class="cs-label">NĂM SỬ DỤNG / NGHỀ NGHIỆP</span>
+            <strong class="cs-value" id="outCustomerMeta">1 năm • Chuyên gia</strong>
+          </div>
+        </div>
+
+        <!-- Visual Digit Breakdown & Metrics (From Sheet A ĐẠT) -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-title">Dãy 9 số tính từ trường (sau số 0 đầu)</div>
+            <div class="digit-boxes" id="phoneDigitsBoxes"></div>
+            <div class="metric-sub" id="phoneDominantTail">4 số cuối: --</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-title">Chỉ số Cấu trúc Năng lượng (Sheet A ĐẠT)</div>
+            <div class="flags-row" id="energyFlagsRow"></div>
+            <div class="metric-sub">Bấm vào bất kỳ cặp 2 số nào bên dưới để xem Nghiệm lý Linh Số Bát Pháp</div>
+          </div>
+        </div>
+
+        <!-- SECTION 1: PHÂN TÍCH SĐT THEO TỔ HỢP 3 SỐ -->
+        <div class="card report-section">
+          <div class="section-header-bar">
+            <div>
+              <span class="section-step">PHẦN I</span>
+              <h3 class="report-heading">PHÂN TÍCH SỐ ĐIỆN THOẠI THEO TỔ HỢP 3 SỐ</h3>
+            </div>
+            <span class="section-badge" id="badge3DigitSummary">7 tổ hợp chuyển hóa</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table" id="tablePhone3Digits">
+              <thead>
+                <tr>
+                  <th style="width: 52px;">STT</th>
+                  <th style="width: 110px;">TỔ HỢP SỐ</th>
+                  <th style="width: 120px;">TÁCH CẶP</th>
+                  <th style="width: 250px;">TỪ TRƯỜNG &amp; ĐÁNH GIÁ</th>
+                  <th>DIỄN GIẢI CHI TIẾT</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyPhone3Digits"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 2: PHÂN TÍCH SĐT THEO CẶP SỐ -->
+        <div class="card report-section">
+          <div class="section-header-bar">
+            <div>
+              <span class="section-step">PHẦN II</span>
+              <h3 class="report-heading">PHÂN TÍCH SỐ ĐIỆN THOẠI THEO CẶP SỐ (8 CẶP)</h3>
+            </div>
+            <span class="section-badge" id="badge2DigitSummary">Cát tinh / Hung tinh</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table" id="tablePhone2Digits">
+              <thead>
+                <tr>
+                  <th style="width: 60px;">VỊ TRÍ</th>
+                  <th style="width: 100px;">CẶP SỐ</th>
+                  <th style="width: 180px;">TỪ TRƯỜNG</th>
+                  <th style="width: 150px;">ĐẶC TÍNH</th>
+                  <th>TỪ KHÓA TỪ TRƯỜNG</th>
+                  <th class="no-print" style="width: 165px;">NGHIỆM LÝ BÁT PHÁP</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyPhone2Digits"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 3: TỔNG KẾT SỐ ĐIỆN THOẠI -->
+        <div class="card report-section summary-highlight-card" id="summaryCardBox">
+          <div class="section-header-bar">
+            <div>
+              <span class="section-step">TỔNG KẾT</span>
+              <h3 class="report-heading">TỔNG KẾT ĐÁNH GIÁ SỐ ĐIỆN THOẠI CỦA BẠN</h3>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <select id="selOverrideSummaryCase" class="form-control no-print" style="font-size:12.5px;padding:5px 10px;width:auto;" title="Chọn mẫu kết luận từ Bảng Tổng Kết (Sheet KH THỰC HIỆN)">
+                <option value="AUTO">⚡ Tự động luận theo công thức chuẩn</option>
+                <option value="EXCEL_BUG">📄 Theo kết quả hiển thị tĩnh trên Sheet gốc (Ẩn 0)</option>
+                <option value="1">Mẫu 1: Sơ bộ tổng quan Tốt</option>
+                <option value="2">Mẫu 2: Bị kết bằng Hung tinh</option>
+                <option value="3">Mẫu 3: Có Hung tinh tụ tập</option>
+                <option value="4">Mẫu 4: Có Hung tinh tụ tập &amp; Kết hung</option>
+                <option value="5">Mẫu 5: Có Ẩn 0 (Ẩn tàng hung họa)</option>
+                <option value="6">Mẫu 6: Có Ẩn 0 &amp; Kết hung</option>
+                <option value="7">Mẫu 7: Có Ẩn 0 &amp; Hung tinh tụ tập</option>
+                <option value="8">Mẫu 8: Rất xấu (Ẩn 0 + Hung tinh tụ tập + Kết hung)</option>
+              </select>
+              <span class="status-pill" id="summaryStatusPill">Đánh giá tổng quan</span>
+            </div>
+          </div>
+
+          <div class="summary-body">
+            <div class="summary-case-tag" id="summaryCaseTag">Trường hợp phân tích</div>
+            <div class="summary-main-text" id="summaryMainText"></div>
+            <div class="summary-note-box">
+              <strong>Lưu ý:</strong> Trên đây là phần luận tính chất thuần của các từ trường đứng riêng lẻ nên chỉ đánh giá tổng quan số hung cát. Ngoài ra, còn phụ thuộc vào số năm sử dụng và sự tương thích với năng lượng của căn cước công dân.
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: PHÂN TÍCH CĂN CƯỚC CÔNG DÂN -->
+        <div class="card report-section">
+          <div class="section-header-bar">
+            <div>
+              <span class="section-step">PHẦN III</span>
+              <h3 class="report-heading">PHÂN TÍCH CĂN CƯỚC CÔNG DÂN (ĐẠI VẬN 0 – 70 TUỔI)</h3>
+            </div>
+            <span class="section-badge cs-mono" id="badgeCCCDNumber">CCCD: 034173017102</span>
+          </div>
+
+          <div class="cccd-timeline-strip" id="cccdTimelineStrip"></div>
+
+          <div class="table-responsive">
+            <table class="data-table" id="tableCCCD">
+              <thead>
+                <tr>
+                  <th style="width: 95px;">TUỔI</th>
+                  <th style="width: 90px;">CẶP SỐ</th>
+                  <th style="width: 165px;">NĂNG LƯỢNG ĐẠI VẬN</th>
+                  <th style="width: 125px;">TÍNH CHẤT</th>
+                  <th>ĐẶC TÍNH &amp; LỜI KHUYÊN CHẤN HÓA</th>
+                  <th class="no-print" style="width: 150px;">TRA LINH SỐ</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyCCCD"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 5: THÔNG TIN CHUYÊN GIA -->
+        <div class="card expert-footer-card">
+          <div class="expert-footer-inner">
+            <div class="expert-avatar">🧭</div>
+            <div class="expert-details">
+              <div class="expert-tag">THÔNG TIN CHUYÊN GIA ĐỒNG HÀNH &amp; THIẾT KẾ TỔ HỢP SỐ</div>
+              <h4 class="expert-name" id="outExpertName">Chuyên gia Kim Hạ • Chiến Compass</h4>
+              <div class="expert-contacts">
+                <span>📞 SĐT/Zalo: <strong id="outExpertPhone">0828.139.131</strong></span>
+                <span>✉️ Email: <strong id="outExpertEmail">Kimha.thinhvuong@gmail.com</strong></span>
+              </div>
+              <p class="expert-note" id="outExpertNote">
+                Liên hệ chuyên gia để được hỗ trợ thiết kế tổ hợp số chuẩn về kết cấu năng lượng, phù hợp ngành nghề, nhu cầu. Đặc biệt là hoá giải hung hoạ, kích phát tài vận hanh thông.
+              </p>
+            </div>
+            <div class="expert-actions no-print">
+              <button type="button" class="btn btn-outline-primary btn-sm" id="btnEditExpertFooter">
+                ✏️ Sửa thông tin chuyên gia
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: LINH SỐ BÁT PHÁP (00-99) ==================== -->
+    <section id="tab-linh-so" class="tab-panel">
+      <div class="card">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="section-title">📖 Linh Số Bát Pháp – Nghiệm Lý Chuyên Sâu (00–99)</h2>
+            <p class="section-desc">Nhập hoặc chọn cặp số (từ 00 đến 99) để xem luận giải chi tiết về Tính cách, Tài vận, Sức khỏe, Tai nạn/Biến cố và Câu chuyện thực tế.</p>
+          </div>
+          <div class="linh-so-search-box">
+            <label for="inpLinhSoPair">NHẬP SỐ (00–99) =&gt;</label>
+            <input type="text" id="inpLinhSoPair" class="form-control input-mono input-linh-so" value="86" maxlength="2" />
+          </div>
+        </div>
+
+        <!-- Filter by Field -->
+        <div class="field-filter-bar" id="linhSoFieldFilters">
+          <button type="button" class="btn-filter active" data-field="ALL">Tất cả (00–99)</button>
+          <button type="button" class="btn-filter cat" data-field="THIÊN Y">Thiên Y</button>
+          <button type="button" class="btn-filter cat" data-field="SINH KHÍ">Sinh Khí</button>
+          <button type="button" class="btn-filter cat" data-field="DIÊN NIÊN">Diên Niên</button>
+          <button type="button" class="btn-filter cat" data-field="PHỤC VỊ">Phục Vị (0/5)</button>
+          <button type="button" class="btn-filter hung" data-field="LỤC SÁT">Lục Sát</button>
+          <button type="button" class="btn-filter hung" data-field="NGŨ QUỶ">Ngũ Quỷ</button>
+          <button type="button" class="btn-filter hung" data-field="HỌA HẠI">Họa Hại</button>
+          <button type="button" class="btn-filter hung" data-field="TUYỆT MỆNH">Tuyệt Mệnh</button>
+        </div>
+
+        <!-- Quick Grid 00 - 99 -->
+        <div class="number-grid-100" id="linhSoGrid100"></div>
+      </div>
+
+      <!-- Detailed View of Selected Pair -->
+      <div id="linhSoDetailContainer" class="linh-so-detail-wrapper"></div>
+    </section>
+
+    <!-- ==================== TAB 3: 8 TỪ TRƯỜNG & BẢNG CHUYỂN HÓA ==================== -->
+    <section id="tab-tu-truong" class="tab-panel">
+      <!-- 8 Magnetic Fields Overview -->
+      <div class="card">
+        <h2 class="section-title">☯️ Năng Lượng Các Cặp Số &amp; Tóm Tắt 8 Từ Trường Số</h2>
+        <p class="section-desc">Hệ thống 4 Từ trường Cát Tinh (Phục Vị, Thiên Y, Sinh Khí, Diên Niên) và 4 Từ trường Hung Tinh (Lục Sát, Tuyệt Mệnh, Họa Hại, Ngũ Quỷ) kèm biến thể Ẩn 0 &amp; Kích 5.</p>
+
+        <div class="eight-fields-grid" id="eightFieldsGrid"></div>
+      </div>
+
+      <!-- Transformation Table (72 Combinations) -->
+      <div class="card">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="section-title">🔄 Bảng Chuyển Hóa Từ Trường 3 Số (72 Cách Cục)</h2>
+            <p class="section-desc">Tra cứu sự kết hợp giữa Từ trường đứng trước và Từ trường đứng sau (kèm Kích 5, Ẩn 0) theo đúng bảng chuẩn Chuyển Hóa Từ Trường.</p>
+          </div>
+          <div class="filter-controls">
+            <select id="selTransField1" class="form-control">
+              <option value="">-- Từ trường 1 (Tất cả) --</option>
+              <option value="THIÊN Y">THIÊN Y</option>
+              <option value="SINH KHÍ">SINH KHÍ</option>
+              <option value="DIÊN NIÊN">DIÊN NIÊN</option>
+              <option value="PHỤC VỊ">PHỤC VỊ</option>
+              <option value="HỌA HẠI">HỌA HẠI</option>
+              <option value="NGŨ QUỶ">NGŨ QUỶ</option>
+              <option value="LỤC SÁT">LỤC SÁT</option>
+              <option value="TUYỆT MỆNH">TUYỆT MỆNH</option>
+            </select>
+            <select id="selTransNature" class="form-control">
+              <option value="">-- Đặc tính (Tất cả) --</option>
+              <option value="Tốt">Tốt</option>
+              <option value="Xấu">Xấu</option>
+              <option value="Rất Xấu">Rất Xấu</option>
+            </select>
+            <input type="text" id="inpTransSearch" class="form-control" placeholder="Tìm theo từ khóa (vd: làm chủ, khẩu tài...)" />
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">STT</th>
+                <th style="width: 210px;">CHUYỂN HÓA GỐC</th>
+                <th style="width: 200px;">TÊN CỤM CHUYỂN HÓA</th>
+                <th style="width: 110px;">ĐẶC TÍNH</th>
+                <th>DIỄN GIẢI CHUẨN &amp; TÀI LIỆU GỐC</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyTransformations"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: BẢNG TRA 1000 SỐ (000-999) ==================== -->
+    <section id="tab-tra-999" class="tab-panel">
+      <div class="card">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="section-title">🔢 Bảng Tra Cứu 1000 Cụm 3 Số (000 – 999)</h2>
+            <p class="section-desc">Toàn bộ cơ sở dữ liệu 1.000 tổ hợp 3 số từ Sheet <code>Setup (Đ)</code> với thông tin tách cặp, từ trường 1 &amp; 2, ẩn 0, kích 5 và đặc tính cát hung.</p>
+          </div>
+          <div class="filter-controls">
+            <input type="text" id="inpSearch999" class="form-control input-mono" placeholder="Nhập số (vd: 378, 868) hoặc từ khóa..." />
+            <select id="selNature999" class="form-control">
+              <option value="">-- Mọi đặc tính --</option>
+              <option value="Tốt">Tốt</option>
+              <option value="Chưa Tốt">Chưa Tốt</option>
+              <option value="Xấu">Xấu</option>
+              <option value="Rất Xấu">Rất Xấu</option>
+            </select>
+            <select id="selSpecial999" class="form-control">
+              <option value="">-- Bộ lọc đặc biệt --</option>
+              <option value="hidden0">Có Ẩn 0</option>
+              <option value="kich5">Có Kích 5</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="result-count-bar" id="count999Bar">Đang hiển thị 1000 / 1000 tổ hợp số</div>
+
+        <div class="table-responsive table-scroll-600">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 85px;">SỐ (3 SỐ)</th>
+                <th style="width: 100px;">TÁCH CẶP</th>
+                <th style="width: 210px;">TỪ TRƯỜNG 1 &amp; 2</th>
+                <th style="width: 220px;">TÊN CỤM TỪ TRƯỜNG</th>
+                <th style="width: 115px;">ĐẶC TÍNH</th>
+                <th style="width: 90px;">ẨN 0</th>
+                <th>GIẢI NGHĨA TỪ TRƯỜNG</th>
+              </tr>
+            </thead>
+            <tbody id="tbody999"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== MODAL: XEM NHANH LINH SỐ BÁT PHÁP ==================== -->
+  <div class="modal-backdrop" id="modalLinhSo" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalLinhSoTitle">Chi tiết Linh Số Bát Pháp</h3>
+        <button type="button" class="modal-close" id="btnCloseLinhSoModal" aria-label="Đóng">&times;</button>
+      </div>
+      <div class="modal-body" id="modalLinhSoBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" id="btnSwitchToLinhSoTab">
+          📖 Mở trong Tab Linh Số Bát Pháp
+        </button>
+        <button type="button" class="btn btn-primary" id="btnCloseLinhSoModalFooter">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CÀI ĐẶT THÔNG TIN CHUYÊN GIA ==================== -->
+  <div class="modal-backdrop" id="modalExpert" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">👤 Cấu Hình Thông Tin Chuyên Gia</h3>
+        <button type="button" class="modal-close" id="btnCloseExpertModal" aria-label="Đóng">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Thông tin này sẽ hiển thị ở cuối bảng báo cáo, bản in PDF và nội dung copy gửi Zalo cho khách hàng.</p>
+        <div class="preset-group" style="margin-bottom: 14px;">
+          <button type="button" class="btn btn-chip" id="btnExpertPresetKimHa">Mẫu: Chuyên gia Kim Hạ</button>
+          <button type="button" class="btn btn-chip" id="btnExpertPresetChien">Mẫu: Chiến Compass</button>
+        </div>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label for="inpExpertName">Tên Chuyên gia / Thương hiệu</label>
+          <input type="text" id="inpExpertName" class="form-control" value="Kim Hạ • Chiến Compass" />
+        </div>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label for="inpExpertPhone">Số điện thoại / Zalo liên hệ</label>
+          <input type="text" id="inpExpertPhone" class="form-control" value="0828.139.131" />
+        </div>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label for="inpExpertEmail">Email</label>
+          <input type="text" id="inpExpertEmail" class="form-control" value="Kimha.thinhvuong@gmail.com" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnSaveExpert">Lưu thông tin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="toast-notification" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

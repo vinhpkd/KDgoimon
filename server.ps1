@@ -131,10 +131,14 @@ function Fetch-ShopeeFoodMenu([string]$shopeeUrl) {
     }
 
     # Extract clean ShopeeFood URL
-    $urlPattern = 'https?://(?:www\.)?shopeefood\.vn/[^\s\)\]\"\>]+'
+    $urlPattern = 'https?://(?:www\.)?shopeefood\.vn/[^\s\)\]\"\>\?\#]+'
     $urlMatch = [regex]::Match($shopeeUrl.Trim(), $urlPattern)
-    $cleanUrl = if ($urlMatch.Success) { $urlMatch.Value } else { $shopeeUrl.Trim() }
-    
+    $cleanUrl = if ($urlMatch.Success) { $urlMatch.Value.TrimEnd('/') } else { $shopeeUrl.Trim().Split('?')[0].TrimEnd('/') }
+
+    # Extract relative path for ShopeeFood API (e.g. ha-noi/dao-che-che-sach-vi-ngon-kim-giang)
+    $pathMatch = [regex]::Match($cleanUrl, 'shopeefood\.vn/(.+)$')
+    $relShopeePath = if ($pathMatch.Success) { $pathMatch.Groups[1].Value } else { "" }
+
     # Locate Chrome or Edge
     $browserPath = $null
     $candidates = @(
@@ -157,6 +161,132 @@ function Fetch-ShopeeFoodMenu([string]$shopeeUrl) {
         return @{ success = $false; message = "Khong tim thay trinh duyet Chrome hoac Edge de tu dong cao thuc don ShopeeFood." }
     }
 
+    # Strategy 1: Stealth Chrome CDP Bridge calling ShopeeFood's internal signed API (100% dishes)
+    if ($relShopeePath) {
+        $cdpPort = Get-Random -Minimum 9400 -Maximum 9899
+        $userDataDir = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "chrome_cdp_$([guid]::NewGuid().ToString('N'))")
+        $cdpProc = $null
+        try {
+            $cdpProc = Start-Process -FilePath $browserPath -ArgumentList @(
+                "--remote-debugging-port=$cdpPort",
+                "--headless=new",
+                "--user-data-dir=`"$userDataDir`"",
+                "--disable-gpu",
+                "--no-first-run",
+                "--disable-blink-features=AutomationControlled",
+                "--user-agent=`"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36`"",
+                "https://shopeefood.vn/ha-noi"
+            ) -PassThru -NoNewWindow
+
+            Start-Sleep -Seconds 4
+            $pages = Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 5
+            $page = $pages | Where-Object { $_.type -eq 'page' } | Select-Object -First 1
+            if ($page -and $page.webSocketDebuggerUrl) {
+                $ws = New-Object System.Net.WebSockets.ClientWebSocket
+                $ct = [System.Threading.CancellationToken]::None
+                $ws.ConnectAsync([Uri]$page.webSocketDebuggerUrl, $ct).Wait()
+
+                $jsExpr = @"
+(async () => {
+    try {
+        let req = null;
+        window.webpackJsonp([9999], { 'm': function(m, e, r) { req = r; } }, ['m']);
+        let apiMod = null;
+        for (const k of Object.keys(req.c)) {
+            const exp = req.c[k]?.exports;
+            if (exp && exp.a && typeof exp.a.get === 'function' && typeof exp.a.post === 'function') {
+                apiMod = exp.a;
+                break;
+            }
+        }
+        const uRes = await apiMod.get('/api/delivery/get_from_url', { url: '$relShopeePath' });
+        const delivId = uRes?.reply?.delivery_id;
+        if (!delivId) return JSON.stringify({ ok: false });
+
+        const dRes = await apiMod.get('/api/delivery/get_detail', { id_type: 2, request_id: delivId });
+        const info = dRes?.reply?.delivery_detail || {};
+
+        const mRes = await apiMod.get('/api/dish/get_delivery_dishes', { id_type: 2, request_id: delivId });
+        const menuInfos = mRes?.reply?.menu_infos || [];
+        const dishes = [];
+        const seen = new Set();
+        for (const cat of menuInfos) {
+            const catName = (cat.dish_type_name || 'Món ngon').trim();
+            for (const d of (cat.dishes || [])) {
+                const dName = (d.name || '').trim();
+                if (!dName || seen.has(dName.toLowerCase())) continue;
+                seen.add(dName.toLowerCase());
+                const priceVal = d.discount_price?.value || d.price?.value || 0;
+                if (priceVal < 1000) continue;
+                dishes.push({
+                    id: 'dish-' + (dishes.length + 1).toString().padStart(2, '0'),
+                    name: dName,
+                    price: priceVal,
+                    category: catName,
+                    description: (d.description || '').trim(),
+                    tag: ''
+                });
+            }
+        }
+        return JSON.stringify({
+            ok: dishes.length > 0,
+            restaurant: {
+                id: '$($relShopeePath.Split('/')[-1])',
+                name: (info.name || 'Quán ShopeeFood').trim(),
+                shopeeUrl: '$cleanUrl',
+                address: (info.address || 'Hà Nội').trim(),
+                rating: info.rating?.avg ? info.rating.avg.toFixed(1) : '4.9',
+                timeOpen: info.operating?.status_text || '08:00 - 22:30',
+                category: (info.categories && info.categories[0]) ? info.categories[0] : 'Món ngon',
+                description: 'Thực đơn chính thức từ ShopeeFood',
+                dishes: dishes
+            }
+        });
+    } catch (e) {
+        return JSON.stringify({ ok: false, err: e.message });
+    }
+})()
+"@
+                $cdpMsg = @{
+                    id = 1
+                    method = "Runtime.evaluate"
+                    params = @{
+                        expression = $jsExpr
+                        awaitPromise = $true
+                        returnByValue = $true
+                    }
+                } | ConvertTo-Json -Compress -Depth 5
+
+                $sendBytes = [System.Text.Encoding]::UTF8.GetBytes($cdpMsg)
+                $sendSeg = New-Object ArraySegment[byte]($sendBytes, 0, $sendBytes.Length)
+                $ws.SendAsync($sendSeg, [System.Net.WebSockets.WebSocketMessageType]::Text, $true, $ct).Wait()
+
+                $recvBuf = New-Object byte[] 4194304
+                $recvSeg = New-Object ArraySegment[byte]($recvBuf, 0, $recvBuf.Length)
+                $sb = [System.Text.StringBuilder]::new()
+                do {
+                    $r = $ws.ReceiveAsync($recvSeg, $ct).Result
+                    $sb.Append([System.Text.Encoding]::UTF8.GetString($recvBuf, 0, $r.Count)) | Out-Null
+                } while (-not $r.EndOfMessage)
+
+                $cdpOut = $sb.ToString() | ConvertFrom-Json
+                $valStr = $cdpOut.result.result.value
+                if ($valStr) {
+                    $parsedVal = $valStr | ConvertFrom-Json
+                    if ($parsedVal.ok -and $parsedVal.restaurant -and $parsedVal.restaurant.dishes.Count -gt 0) {
+                        return @{
+                            success = $true
+                            restaurant = $parsedVal.restaurant
+                        }
+                    }
+                }
+            }
+        } catch {} finally {
+            try { if ($cdpProc) { $cdpProc.Kill() } } catch {}
+            try { Remove-Item -Path $userDataDir -Recurse -Force -ErrorAction SilentlyContinue } catch {}
+        }
+    }
+
     $tmpDir = [System.IO.Path]::GetTempPath()
     $tmpFile = [System.IO.Path]::Combine($tmpDir, "shopee_dump_$([guid]::NewGuid().ToString('N')).html")
     
@@ -168,6 +298,8 @@ function Fetch-ShopeeFoodMenu([string]$shopeeUrl) {
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             "--disable-extensions",
+            "--disable-blink-features=AutomationControlled",
+            "--user-agent=`"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36`"",
             "--window-size=1920,30000",
             "--virtual-time-budget=6000",
             "--dump-dom",

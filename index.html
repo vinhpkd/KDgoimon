@@ -71,9 +71,9 @@
           </div>
 
           <!-- Add Store Button -->
-          <button onclick="openAddRestaurantModal()" class="flex items-center space-x-1.5 px-3.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 text-xs sm:text-sm font-semibold rounded-lg transition-all border border-orange-200">
-            <i data-lucide="plus-circle" class="w-4 h-4 text-orange-600"></i>
-            <span>+ Thêm Quán Mới</span>
+          <button onclick="openAddRestaurantModal()" class="flex items-center space-x-1.5 px-3.5 py-1.5 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white text-xs sm:text-sm font-bold rounded-lg transition-all shadow-sm shadow-orange-500/20 cursor-pointer">
+            <i data-lucide="store" class="w-4 h-4 text-white"></i>
+            <span>+ Kho Quán ShopeeFood & Thêm Quán</span>
           </button>
 
           <!-- Clear/New Session Button -->
@@ -145,9 +145,9 @@
             </div>
           </div>
 
-          <button onclick="openAddRestaurantModal()" class="h-9 px-3.5 mt-auto bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg shadow-xs flex items-center justify-center gap-1.5 transition-all">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Thêm Quán Khác</span>
+          <button onclick="openAddRestaurantModal()" class="h-9 px-3.5 mt-auto bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white text-xs font-bold rounded-lg shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <span>Kho Quán ShopeeFood (144+)</span>
           </button>
         </div>
 
@@ -400,10 +400,10 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL: THÊM QUÁN MỚI (ADD CUSTOM RESTAURANT) -->
+  <!-- MODAL: KHO QUÁN SHOPEEFOOD & THÊM QUÁN MỚI -->
   <!-- ===================================================================== -->
-  <div id="addRestaurantModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs hidden">
-    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all modal-enter-active max-h-[90vh] flex flex-col">
+  <div id="addRestaurantModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs hidden">
+    <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all modal-enter-active max-h-[92vh] flex flex-col">
       
       <!-- Header -->
       <div class="p-4 sm:p-5 bg-gradient-to-r from-orange-600 to-amber-600 text-white flex items-center justify-between">
@@ -412,23 +412,68 @@
             <i data-lucide="store" class="w-5 h-5 text-white"></i>
           </div>
           <div>
-            <h3 class="font-black text-base sm:text-lg">Thêm Quán Ăn Mới Từ ShopeeFood</h3>
-            <p class="text-xs text-orange-100">Đồng bộ 100% thực đơn, hoạt động mượt mà trên GitHub Pages và máy tính nội bộ</p>
+            <h3 class="font-black text-base sm:text-lg">Kho Thực Đơn ShopeeFood.vn (Đã Tích Hợp Sẵn 144+ Quán & 17.385+ Món)</h3>
+            <p class="text-xs text-orange-100">Chọn ngay mọi quán đã tích hợp sẵn thực đơn hoặc dán link ShopeeFood bất kỳ</p>
           </div>
         </div>
-        <button onclick="closeAddRestaurantModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
+        <button onclick="closeAddRestaurantModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
-      <!-- Main Content -->
-      <div class="p-4 sm:p-5 overflow-y-auto space-y-4">
+      <!-- Modal Mode Tabs -->
+      <div class="px-4 sm:px-5 pt-3 bg-slate-100 border-b border-slate-200 flex items-center gap-2">
+        <button type="button" id="modalTabCatalogBtn" onclick="switchAddModalTab('catalog')" class="px-4 py-2.5 rounded-t-xl font-black text-xs sm:text-sm bg-white text-orange-600 border-t border-l border-r border-slate-200 flex items-center gap-2 cursor-pointer shadow-2xs">
+          <i data-lucide="Compass" class="w-4 h-4"></i>
+          <span>📚 Kho Quán ShopeeFood Tích Hợp (<span id="catalogTotalBadge">144</span> quán)</span>
+        </button>
+        <button type="button" id="modalTabLinkBtn" onclick="switchAddModalTab('link')" class="px-4 py-2.5 rounded-t-xl font-bold text-xs sm:text-sm text-slate-600 hover:text-slate-900 hover:bg-white/60 flex items-center gap-2 cursor-pointer transition-all">
+          <i data-lucide="link" class="w-4 h-4"></i>
+          <span>🔗 Dán Link ShopeeFood / Tùy Chỉnh Thực Đơn</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: BUILT-IN SHOPEEFOOD CATALOG BROWSER -->
+      <div id="modalTabCatalogContent" class="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1">
+        <!-- Search & Filter Bar -->
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="catalogSearchInput" 
+              oninput="renderShopeeCatalogGrid()" 
+              placeholder="Tìm tên quán, địa chỉ hoặc tên món ăn (VD: Cơm tấm, Bún chả, Trà sữa, KFC, Mixue, Bánh mì...)" 
+              class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none shadow-2xs"
+            />
+          </div>
+        </div>
+
+        <!-- Quick Category Filter Pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" id="catalogFilterPills">
+          <button type="button" onclick="setCatalogCategoryFilter('ALL')" class="px-3 py-1 rounded-full text-xs font-bold bg-orange-600 text-white cursor-pointer whitespace-nowrap">Tất cả (144)</button>
+          <button type="button" onclick="setCatalogCategoryFilter('Cơm')" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-orange-50 text-slate-700 cursor-pointer whitespace-nowrap">🍱 Cơm Văn Phòng</button>
+          <button type="button" onclick="setCatalogCategoryFilter('Bún')" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-orange-50 text-slate-700 cursor-pointer whitespace-nowrap">🍜 Bún / Phở / Miến</button>
+          <button type="button" onclick="setCatalogCategoryFilter('Trà Sữa')" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-orange-50 text-slate-700 cursor-pointer whitespace-nowrap">🧋 Trà Sữa & Cà Phê</button>
+          <button type="button" onclick="setCatalogCategoryFilter('Bánh Mì')" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-orange-50 text-slate-700 cursor-pointer whitespace-nowrap">🥖 Bánh Mì & Xôi</button>
+          <button type="button" onclick="setCatalogCategoryFilter('Gà Rán')" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-orange-50 text-slate-700 cursor-pointer whitespace-nowrap">🍗 Gà Rán & Pizza</button>
+          <button type="button" onclick="setCatalogCategoryFilter('Chè')" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-orange-50 text-slate-700 cursor-pointer whitespace-nowrap">🍨 Chè & Ăn Vặt</button>
+        </div>
+
+        <!-- Catalog Grid -->
+        <div id="shopeeCatalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[52vh] overflow-y-auto pr-1">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 2: PASTE LINK OR CUSTOMIZE MENU -->
+      <div id="modalTabLinkContent" class="hidden p-4 sm:p-5 overflow-y-auto space-y-4 flex-1">
         
         <!-- Main Auto-Scan Section -->
         <div class="space-y-3 bg-gradient-to-br from-orange-50 to-amber-50/50 p-4 rounded-2xl border border-orange-200 shadow-xs">
           <label class="block text-xs font-black uppercase tracking-wider text-orange-950 flex items-center gap-1.5">
             <i data-lucide="link" class="w-3.5 h-3.5 text-orange-600"></i>
-            <span>Dán Đường Link Quán ShopeeFood:</span>
+            <span>Dán Đường Link Quán ShopeeFood Hoặc Tìm Tên Quán:</span>
           </label>
           
           <div class="flex flex-col sm:flex-row gap-2">
@@ -511,14 +556,17 @@
       </div>
 
       <!-- Footer -->
-      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end space-x-3">
-        <button onclick="closeAddRestaurantModal()" class="px-4 py-2 border border-slate-300 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-xl transition-all">
-          Đóng
-        </button>
-        <button id="btnSaveNewRestaurant" onclick="saveNewRestaurant()" class="px-5 py-2.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
-          <i data-lucide="check-circle" class="w-4 h-4"></i>
-          <span>Lưu Quán & Chọn Quán Này</span>
-        </button>
+      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between space-x-3">
+        <span class="text-xs text-slate-500 hidden sm:inline">💡 Mọi quán chọn từ kho đều có sẵn 100% món và giá chuẩn ShopeeFood.vn</span>
+        <div class="flex items-center space-x-2 ml-auto">
+          <button onclick="closeAddRestaurantModal()" class="px-4 py-2 border border-slate-300 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-xl transition-all cursor-pointer">
+            Đóng
+          </button>
+          <button id="btnSaveNewRestaurant" onclick="saveNewRestaurant()" class="hidden px-5 py-2.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>Lưu Quán & Chọn Quán Này</span>
+          </button>
+        </div>
       </div>
 
     </div>

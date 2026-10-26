@@ -73,7 +73,9 @@ const state = {
   activeSummaryTab: 'detailed',
   lastOrdersTimestamp: 0,
   lastRestaurantsTimestamp: 0,
-  isMqttConnected: false
+  isMqttConnected: false,
+  activeModalTab: 'catalog',
+  catalogCategoryFilter: 'ALL'
 };
 
 // Initialize Application
@@ -141,32 +143,28 @@ function initializeData() {
     }
   } catch (e) {}
 
-  // 2. Load Local Restaurants & deduplicate strictly
+  // 2. Load Full Built-in ShopeeFood Catalog & User Saved Restaurants
   const localRests = loadLocalRestaurants();
   let baseRests = [];
   if (typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS)) {
-    baseRests = JSON.parse(JSON.stringify(INITIAL_RESTAURANTS));
+    baseRests = INITIAL_RESTAURANTS;
   }
 
   const restMap = new Map();
-  // Always register canonical Dao Che first
-  baseRests.forEach(r => restMap.set(r.id, r));
+  // Register all 144+ integrated ShopeeFood restaurants first
+  baseRests.forEach(r => {
+    if (r && r.id) restMap.set(r.id, r);
+  });
 
   if (localRests && localRests.length > 0) {
     localRests.forEach(r => {
-      const normName = (r.name || '').toLowerCase().trim();
-      // Drop duplicate Dao Che variations or legacy PewPew from previous runs
-      if (normName.includes('đảo chè') || normName.includes('dao che') || normName.includes('pewpew')) {
-        return;
-      }
-      if (r.id && !restMap.has(r.id)) {
+      if (r && r.id && !restMap.has(r.id)) {
         restMap.set(r.id, r);
       }
     });
   }
 
   state.restaurants = Array.from(restMap.values());
-  saveRestaurantsToLocal();
 
   // Verify Current Restaurant exists
   if (!state.restaurants.some(r => r.id === state.currentRestaurantId)) {
@@ -1231,11 +1229,12 @@ function fallbackCopyText(text) {
 }
 
 // ------------------------------------------------------------------------------
-// MODAL THÊM QUÁN MỚI - TỰ ĐỘNG NHẬN DIỆN & ĐỒNG BỘ SHOPEEFOOD
+// MODAL KHO QUÁN SHOPEEFOOD & THÊM QUÁN MỚI
 // ------------------------------------------------------------------------------
 
-function openAddRestaurantModal() {
+function openAddRestaurantModal(defaultTab = 'catalog') {
   state.draftDishes = [];
+  state.catalogCategoryFilter = 'ALL';
 
   const modal = document.getElementById('addRestaurantModal');
   if (!modal) return;
@@ -1252,7 +1251,12 @@ function openAddRestaurantModal() {
   const addrInput = document.getElementById('newRestAddress');
   if (addrInput) addrInput.value = '';
 
+  const searchInput = document.getElementById('catalogSearchInput');
+  if (searchInput) searchInput.value = '';
+
   renderDraftDishes();
+  switchAddModalTab(defaultTab);
+  renderShopeeCatalogGrid();
 
   modal.classList.remove('hidden');
   if (window.lucide) window.lucide.createIcons();
@@ -1262,6 +1266,169 @@ function closeAddRestaurantModal() {
   const modal = document.getElementById('addRestaurantModal');
   if (modal) modal.classList.add('hidden');
   state.draftDishes = [];
+}
+
+function switchAddModalTab(tab) {
+  state.activeModalTab = tab;
+  const tabCatalogBtn = document.getElementById('modalTabCatalogBtn');
+  const tabLinkBtn = document.getElementById('modalTabLinkBtn');
+  const tabCatalogContent = document.getElementById('modalTabCatalogContent');
+  const tabLinkContent = document.getElementById('modalTabLinkContent');
+  const btnSave = document.getElementById('btnSaveNewRestaurant');
+
+  if (tab === 'catalog') {
+    if (tabCatalogContent) tabCatalogContent.classList.remove('hidden');
+    if (tabLinkContent) tabLinkContent.classList.add('hidden');
+    if (btnSave) btnSave.classList.add('hidden');
+    if (tabCatalogBtn) {
+      tabCatalogBtn.className = 'px-4 py-2.5 rounded-t-xl font-black text-xs sm:text-sm bg-white text-orange-600 border-t border-l border-r border-slate-200 flex items-center gap-2 cursor-pointer shadow-2xs';
+    }
+    if (tabLinkBtn) {
+      tabLinkBtn.className = 'px-4 py-2.5 rounded-t-xl font-bold text-xs sm:text-sm text-slate-600 hover:text-slate-900 hover:bg-white/60 flex items-center gap-2 cursor-pointer transition-all';
+    }
+  } else {
+    if (tabCatalogContent) tabCatalogContent.classList.add('hidden');
+    if (tabLinkContent) tabLinkContent.classList.remove('hidden');
+    if (btnSave) btnSave.classList.remove('hidden');
+    if (tabLinkBtn) {
+      tabLinkBtn.className = 'px-4 py-2.5 rounded-t-xl font-black text-xs sm:text-sm bg-white text-orange-600 border-t border-l border-r border-slate-200 flex items-center gap-2 cursor-pointer shadow-2xs';
+    }
+    if (tabCatalogBtn) {
+      tabCatalogBtn.className = 'px-4 py-2.5 rounded-t-xl font-bold text-xs sm:text-sm text-slate-600 hover:text-slate-900 hover:bg-white/60 flex items-center gap-2 cursor-pointer transition-all';
+    }
+  }
+}
+
+function setCatalogCategoryFilter(cat) {
+  state.catalogCategoryFilter = cat;
+  renderShopeeCatalogGrid();
+}
+
+function renderShopeeCatalogGrid() {
+  const grid = document.getElementById('shopeeCatalogGrid');
+  const badge = document.getElementById('catalogTotalBadge');
+  if (!grid) return;
+
+  const catalog = (typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS))
+    ? INITIAL_RESTAURANTS
+    : state.restaurants;
+
+  if (badge) badge.textContent = catalog.length;
+
+  const query = (document.getElementById('catalogSearchInput')?.value || '').trim().toLowerCase();
+  const catFilter = state.catalogCategoryFilter || 'ALL';
+
+  // Update filter pills active state
+  const pillsContainer = document.getElementById('catalogFilterPills');
+  if (pillsContainer) {
+    const buttons = pillsContainer.querySelectorAll('button');
+    buttons.forEach(btn => {
+      const btnText = btn.textContent || '';
+      const isMatch = (catFilter === 'ALL' && btnText.includes('Tất cả')) ||
+                      (catFilter !== 'ALL' && btnText.toLowerCase().includes(catFilter.toLowerCase()));
+      btn.className = isMatch
+        ? 'px-3 py-1 rounded-full text-xs font-bold bg-orange-600 text-white cursor-pointer whitespace-nowrap shadow-2xs'
+        : 'px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-orange-50 text-slate-700 cursor-pointer whitespace-nowrap';
+    });
+  }
+
+  const filtered = catalog.filter(r => {
+    const name = (r.name || '').toLowerCase();
+    const addr = (r.address || '').toLowerCase();
+    const cat = (r.category || '').toLowerCase();
+
+    if (catFilter !== 'ALL') {
+      const kw = catFilter.toLowerCase();
+      let matchesCat = name.includes(kw) || cat.includes(kw);
+      if (!matchesCat && kw === 'bún') {
+        matchesCat = name.includes('phở') || name.includes('miến') || name.includes('mì') || name.includes('hủ tiếu');
+      } else if (!matchesCat && kw === 'trà sữa') {
+        matchesCat = name.includes('trà') || name.includes('coffee') || name.includes('cà phê') || name.includes('mixue') || name.includes('tocotoco') || name.includes('highlands') || name.includes('katinat') || name.includes('phúc long');
+      } else if (!matchesCat && kw === 'bánh mì') {
+        matchesCat = name.includes('bánh') || name.includes('xôi');
+      } else if (!matchesCat && kw === 'gà rán') {
+        matchesCat = name.includes('gà') || name.includes('kfc') || name.includes('lotteria') || name.includes('jollibee') || name.includes('pizza') || name.includes('burger');
+      } else if (!matchesCat && kw === 'chè') {
+        matchesCat = name.includes('chè') || name.includes('ăn vặt') || name.includes('nem') || name.includes('ốc') || name.includes('cháo') || name.includes('tàu hũ');
+      }
+      if (!matchesCat) return false;
+    }
+
+    if (!query) return true;
+    if (name.includes(query) || addr.includes(query) || cat.includes(query)) return true;
+
+    // Also search inside dishes!
+    if (Array.isArray(r.dishes)) {
+      return r.dishes.some(d => (d.name || '').toLowerCase().includes(query));
+    }
+    return false;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="col-span-full py-10 text-center text-slate-400 bg-slate-50 rounded-xl border border-slate-200">
+        <p class="font-bold text-slate-600 text-sm">Không tìm thấy quán nào khớp với "${escapeHtml(query)}"</p>
+        <p class="text-xs mt-1">Bạn có thể chuyển sang tab <strong>"🔗 Dán Link ShopeeFood"</strong> để quét trực tiếp link quán!</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(r => {
+    const isCurrent = r.id === state.currentRestaurantId;
+    const dishCount = r.dishes?.length || 0;
+    const sampleDishes = (r.dishes || []).slice(0, 3).map(d => d.name).join(', ');
+
+    return `
+      <div class="p-3.5 rounded-xl border ${isCurrent ? 'border-orange-500 bg-orange-50/40' : 'border-slate-200 bg-white hover:border-orange-300'} shadow-2xs transition-all flex flex-col justify-between gap-2.5">
+        <div class="space-y-1">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="font-black text-slate-900 text-xs sm:text-sm leading-snug line-clamp-1" title="${escapeHtml(r.name)}">
+              ${escapeHtml(r.name)}
+            </h4>
+            <span class="px-2 py-0.5 text-[10px] font-black rounded-full bg-orange-100 text-orange-700 whitespace-nowrap flex-shrink-0">
+              ${dishCount} món
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 line-clamp-1 flex items-center gap-1">
+            <span>📍 ${escapeHtml(r.address || 'Hà Nội')}</span>
+          </p>
+          ${sampleDishes ? `<p class="text-[11px] text-slate-400 line-clamp-1 italic">🍽️ ${escapeHtml(sampleDishes)}...</p>` : ''}
+        </div>
+
+        <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+          <a href="${escapeHtml(r.shopeeUrl || 'https://shopeefood.vn')}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-slate-400 hover:text-orange-600 hover:underline truncate">
+            Xem trên ShopeeFood ↗
+          </a>
+          <button 
+            type="button" 
+            onclick="selectCatalogRestaurant('${escapeHtml(r.id)}')" 
+            class="px-3 py-1.5 rounded-lg text-xs font-black ${isCurrent ? 'bg-emerald-600 text-white' : 'bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white'} shadow-2xs transition-all cursor-pointer whitespace-nowrap flex items-center gap-1"
+          >
+            <span>${isCurrent ? '✓ Đang Chọn' : 'Chọn Quán Này'}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectCatalogRestaurant(restId) {
+  const catalog = (typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS))
+    ? INITIAL_RESTAURANTS
+    : state.restaurants;
+
+  const found = catalog.find(r => r.id === restId) || state.restaurants.find(r => r.id === restId);
+  if (!found) return;
+
+  if (!state.restaurants.some(r => r.id === found.id)) {
+    state.restaurants.unshift(found);
+    saveRestaurantsToLocal();
+  }
+
+  closeAddRestaurantModal();
+  changeRestaurant(found.id, true);
+  showToast(`🎉 Đã chuyển sang quán "${found.name}" (${found.dishes?.length || 0} món)!`, 'success');
 }
 
 // ------------------------------------------------------------------------------
@@ -1545,21 +1712,40 @@ function parseQuickPasteDishes() {
   if (ta) ta.value = '';
 }
 
-// Scan ShopeeFood URL Button (Completely automatic & serverless, no start.bat required)
+// Scan ShopeeFood URL or Keyword Button (Completely automatic & serverless)
 async function updateRestaurantMenuFromUrl() {
   const urlInput = document.getElementById('newRestUrl');
   const rawUrl = urlInput ? urlInput.value.trim() : '';
 
   if (!rawUrl) {
-    showToast('⚠️ Vui lòng dán đường link ShopeeFood của quán!', 'warning');
+    showToast('⚠️ Vui lòng dán đường link ShopeeFood hoặc nhập tên quán!', 'warning');
     urlInput?.focus();
     return;
   }
 
   const cleanUrl = normalizeShopeeUrl(rawUrl);
+  const catalog = (typeof INITIAL_RESTAURANTS !== 'undefined') ? INITIAL_RESTAURANTS : (state.restaurants || []);
 
-  if (!cleanUrl.includes('shopeefood.vn') && !cleanUrl.includes('shopee.vn') && !cleanUrl.includes('now.vn')) {
-    showToast('⚠️ Vui lòng nhập link chuẩn từ website ShopeeFood.vn (ví dụ: https://shopeefood.vn/ha-noi/...)!', 'warning');
+  // If user typed a keyword instead of a URL, search catalog first!
+  if (!cleanUrl.includes('shopeefood.vn') && !cleanUrl.includes('shopee.vn') && !cleanUrl.includes('now.vn') && !cleanUrl.startsWith('http')) {
+    const kw = rawUrl.toLowerCase();
+    const matchedByName = catalog.find(r => (r.name || '').toLowerCase().includes(kw) || (r.id || '').toLowerCase().includes(kw));
+    if (matchedByName && matchedByName.dishes && matchedByName.dishes.length > 0) {
+      const nameInput = document.getElementById('newRestName');
+      if (nameInput) nameInput.value = matchedByName.name;
+      const addrInput = document.getElementById('newRestAddress');
+      if (addrInput) addrInput.value = matchedByName.address || '';
+      const catInput = document.getElementById('newRestCategory');
+      if (catInput) catInput.value = matchedByName.category || 'Món ăn';
+      if (urlInput) urlInput.value = matchedByName.shopeeUrl || '';
+
+      state.draftDishes = JSON.parse(JSON.stringify(matchedByName.dishes));
+      renderDraftDishes();
+      showToast(`✨ Đã nạp thực đơn chuẩn 100% của quán "${matchedByName.name}" (${matchedByName.dishes.length} món)!`, 'success');
+      return;
+    }
+
+    showToast('⚠️ Vui lòng nhập link từ ShopeeFood.vn hoặc chọn quán trong tab Kho Quán ShopeeFood!', 'warning');
     return;
   }
 
@@ -1572,19 +1758,35 @@ async function updateRestaurantMenuFromUrl() {
   if (btnText) btnText.textContent = 'Đang quét thực đơn ShopeeFood...';
 
   try {
-    const catalog = (typeof INITIAL_RESTAURANTS !== 'undefined') ? INITIAL_RESTAURANTS : (state.restaurants || []);
-    
     // Normalize URL for matching
     const urlLower = cleanUrl.toLowerCase();
     const urlParts = cleanUrl.split('/').filter(p => p.length > 0);
-    const slug = urlParts[urlParts.length - 1] || '';
+    const slug = (urlParts[urlParts.length - 1] || '').toLowerCase();
+    const slugTokens = slug.split('-').filter(t => t.length >= 2);
 
-    // 1. Check if URL matches existing saved catalog restaurants (Instant 0ms)
-    const matched = catalog.find(r => {
+    // 1. Check if URL matches existing saved catalog restaurants (Exact or Fuzzy Slug Match - Instant 0ms)
+    let matched = catalog.find(r => {
       if (!r.shopeeUrl) return false;
       const rUrl = normalizeShopeeUrl(r.shopeeUrl).toLowerCase();
-      return rUrl === urlLower || (slug && rUrl.includes(slug)) || (r.id && urlLower.includes(r.id));
+      return rUrl === urlLower || (slug && rUrl.endsWith('/' + slug)) || (r.id && r.id.toLowerCase() === slug);
     });
+
+    // Fuzzy token match against catalog if exact slug didn't match (e.g. tra-sua-mixue-kim-giang -> matches Mixue)
+    if (!matched && slugTokens.length >= 2) {
+      let bestScore = 0;
+      catalog.forEach(r => {
+        const hay = ((r.id || '') + ' ' + (r.shopeeUrl || '') + ' ' + (r.name || '')).toLowerCase();
+        let hits = 0;
+        slugTokens.forEach(tok => {
+          if (hay.includes(tok)) hits++;
+        });
+        const ratio = hits / slugTokens.length;
+        if (hits >= 2 && ratio >= 0.6 && ratio > bestScore) {
+          bestScore = ratio;
+          matched = r;
+        }
+      });
+    }
 
     if (matched && matched.dishes && matched.dishes.length > 0) {
       const nameInput = document.getElementById('newRestName');
