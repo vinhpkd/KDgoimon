@@ -8,11 +8,15 @@ let currentApiBase = '';
 let isServerReachable = null; // null: unknown, true: online, false: offline
 const broadcastChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('foodsync_realtime') : null;
 
-// MQTT Realtime Cloud Settings (Free public WebSockets broker for serverless multi-user sync)
+// MQTT Realtime Cloud & Shared Cloud Database Settings (Works 100% on GitHub Pages across all devices/browsers)
 let mqttClient = null;
 const MQTT_TOPIC_ORDERS = 'foodsync_pkd_v2026/orders';
 const MQTT_TOPIC_RESTAURANTS = 'foodsync_pkd_v2026/restaurants';
 const MQTT_TOPIC_SYNC = 'foodsync_pkd_v2026/sync';
+const MQTT_TOPIC_RET_CUSTOM_RESTS = 'foodsync_pkd_v2026/retained/custom_restaurants';
+const MQTT_TOPIC_RET_ORDERS = 'foodsync_pkd_v2026/retained/orders';
+const MQTT_TOPIC_RET_ACTIVE_REST = 'foodsync_pkd_v2026/retained/active_restaurant';
+const CLOUD_DB_NTFY_TOPIC = 'foodsync_pkd_v2026_cloud_db_v2';
 
 // Smart multi-origin API Fetcher: connects to localhost:8080 when running locally
 async function apiFetch(path, options = {}) {
@@ -64,6 +68,8 @@ async function apiFetch(path, options = {}) {
 // Application State
 const state = {
   restaurants: [],
+  customRestaurants: [],
+  deletedRestaurantIds: [],
   currentRestaurantId: 'dao-che-kim-giang',
   orders: [],
   activeCategory: 'ALL',
@@ -73,6 +79,8 @@ const state = {
   activeSummaryTab: 'detailed',
   lastOrdersTimestamp: 0,
   lastRestaurantsTimestamp: 0,
+  lastCloudBytebinKey: '',
+  lastCloudSyncTime: 0,
   isMqttConnected: false,
   activeModalTab: 'catalog',
   catalogCategoryFilter: 'ALL'
@@ -100,9 +108,15 @@ if (document.readyState === 'loading') {
 // Load saved local preferences
 function loadLocalPreferences() {
   try {
+    // Clean up legacy oversized key that exceeded 5MB localStorage quota
+    localStorage.removeItem('foodsync_saved_restaurants');
     const savedLastRest = localStorage.getItem('foodsync_last_restaurant');
     if (savedLastRest) {
       state.currentRestaurantId = savedLastRest;
+    }
+    const savedKey = localStorage.getItem('foodsync_cloud_db_key');
+    if (savedKey) {
+      state.lastCloudBytebinKey = savedKey;
     }
   } catch (e) {}
 }
@@ -115,24 +129,346 @@ function saveOrdersToLocal() {
 
 function saveRestaurantsToLocal() {
   try {
-    localStorage.setItem('foodsync_saved_restaurants', JSON.stringify(state.restaurants));
+    localStorage.setItem('foodsync_custom_restaurants', JSON.stringify(state.customRestaurants));
+    localStorage.setItem('foodsync_deleted_restaurants', JSON.stringify(state.deletedRestaurantIds));
   } catch (e) {}
 }
 
-function loadLocalRestaurants() {
+function loadLocalCustomRestaurants() {
   try {
-    const saved = localStorage.getItem('foodsync_saved_restaurants');
+    const saved = localStorage.getItem('foodsync_custom_restaurants');
     if (saved) {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) {
+      if (Array.isArray(parsed)) {
         return parsed;
       }
     }
   } catch (e) {}
-  return null;
+  return [];
 }
 
-// Fetch Initial Data (Instant Local Render + Background Server Sync)
+function loadLocalDeletedRestaurantIds() {
+  try {
+    const saved = localStorage.getItem('foodsync_deleted_restaurants');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    }
+  } catch (e) {}
+  return [];
+}
+
+// Merge user-added/modified customRestaurants with built-in INITIAL_RESTAURANTS
+function rebuildMergedRestaurants() {
+  const deletedSet = new Set(state.deletedRestaurantIds || []);
+  const baseRests = (typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS))
+    ? INITIAL_RESTAURANTS
+    : [];
+
+  const merged = [];
+  const seenIds = new Set();
+  const seenNames = new Set();
+  const seenUrls = new Set();
+
+  // 1. Put all user-added / modified restaurants at the TOP of the list
+  (state.customRestaurants || []).forEach(r => {
+    if (!r || !r.id || deletedSet.has(r.id)) return;
+    const normName = (r.name || '').toLowerCase().trim();
+    const normUrl = r.shopeeUrl ? normalizeShopeeUrl(r.shopeeUrl).toLowerCase() : '';
+    if (seenIds.has(r.id)) return;
+    seenIds.add(r.id);
+    if (normName) seenNames.add(normName);
+    if (normUrl && normUrl !== 'https://shopeefood.vn') seenUrls.add(normUrl);
+    merged.push({ ...r, isCustom: true });
+  });
+
+  // 2. Append all built-in ShopeeFood catalog restaurants
+  baseRests.forEach(r => {
+    if (!r || !r.id || deletedSet.has(r.id)) return;
+    const normName = (r.name || '').toLowerCase().trim();
+    const normUrl = r.shopeeUrl ? normalizeShopeeUrl(r.shopeeUrl).toLowerCase() : '';
+    if (seenIds.has(r.id) || (normName && seenNames.has(normName)) || (normUrl && seenUrls.has(normUrl))) {
+      return;
+    }
+    seenIds.add(r.id);
+    if (normName) seenNames.add(normName);
+    if (normUrl) seenUrls.add(normUrl);
+    merged.push(r);
+  });
+
+  state.restaurants = merged;
+
+  if (!state.restaurants.some(r => r.id === state.currentRestaurantId)) {
+    state.currentRestaurantId = state.restaurants[0]?.id || 'dao-che-kim-giang';
+  }
+}
+
+// Add or update a restaurant inside state.customRestaurants & rebuild merged list
+function upsertCustomRestaurant(restObj) {
+  if (!restObj || !restObj.name) return null;
+  const normName = (restObj.name || '').toLowerCase().trim();
+  const normUrl = restObj.shopeeUrl ? normalizeShopeeUrl(restObj.shopeeUrl).toLowerCase() : '';
+
+  const existingCustomIdx = state.customRestaurants.findIndex(r =>
+    r.id === restObj.id ||
+    (normName && (r.name || '').toLowerCase().trim() === normName) ||
+    (normUrl && normUrl !== 'https://shopeefood.vn' && r.shopeeUrl && normalizeShopeeUrl(r.shopeeUrl).toLowerCase() === normUrl)
+  );
+
+  // Also check if it matches a built-in restaurant ID so we preserve its ID
+  const baseRests = (typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS)) ? INITIAL_RESTAURANTS : [];
+  const existingBase = baseRests.find(r =>
+    r.id === restObj.id ||
+    (normName && (r.name || '').toLowerCase().trim() === normName) ||
+    (normUrl && normUrl !== 'https://shopeefood.vn' && r.shopeeUrl && normalizeShopeeUrl(r.shopeeUrl).toLowerCase() === normUrl)
+  );
+
+  const finalId = (existingCustomIdx >= 0 ? state.customRestaurants[existingCustomIdx].id : null)
+    || (existingBase ? existingBase.id : null)
+    || restObj.id;
+
+  const entry = {
+    ...restObj,
+    id: finalId,
+    isCustom: true,
+    updatedAt: Date.now()
+  };
+
+  // Remove from deleted list if previously deleted
+  state.deletedRestaurantIds = (state.deletedRestaurantIds || []).filter(id => id !== finalId);
+
+  if (existingCustomIdx >= 0) {
+    state.customRestaurants[existingCustomIdx] = entry;
+  } else {
+    state.customRestaurants.unshift(entry);
+  }
+
+  saveRestaurantsToLocal();
+  rebuildMergedRestaurants();
+  return entry;
+}
+
+// ------------------------------------------------------------------------------
+// SHARED CLOUD DATABASE (BYTEBIN + NTFY + MQTT RETAINED)
+// Persists added restaurants, menus, active restaurant, and orders for all users
+// ------------------------------------------------------------------------------
+
+let activeCloudSavePromise = null;
+let hasPendingCloudSave = false;
+
+async function saveToSharedCloudDB() {
+  // 1. Publish Retained MQTT messages for instant (<100ms) sync to any new/online browser
+  if (mqttClient && mqttClient.connected) {
+    try {
+      mqttClient.publish(MQTT_TOPIC_RET_CUSTOM_RESTS, JSON.stringify({
+        updatedAt: Date.now(),
+        customRestaurants: state.customRestaurants,
+        deletedRestaurantIds: state.deletedRestaurantIds
+      }), { retain: true, qos: 1 });
+
+      mqttClient.publish(MQTT_TOPIC_RET_ORDERS, JSON.stringify({
+        updatedAt: Date.now(),
+        orders: state.orders
+      }), { retain: true, qos: 1 });
+
+      mqttClient.publish(MQTT_TOPIC_RET_ACTIVE_REST, JSON.stringify({
+        updatedAt: Date.now(),
+        currentRestaurantId: state.currentRestaurantId
+      }), { retain: true, qos: 1 });
+    } catch (e) {}
+  }
+
+  // 2. Persist full snapshot to HTTPS Cloud Database (bytebin.lucko.me + ntfy.sh)
+  if (activeCloudSavePromise) {
+    hasPendingCloudSave = true;
+    return activeCloudSavePromise;
+  }
+
+  activeCloudSavePromise = (async () => {
+    try {
+      do {
+        hasPendingCloudSave = false;
+        const now = Date.now();
+        const snapshot = {
+          updatedAt: now,
+          currentRestaurantId: state.currentRestaurantId,
+          customRestaurants: state.customRestaurants,
+          deletedRestaurantIds: state.deletedRestaurantIds,
+          orders: state.orders
+        };
+
+        const byteRes = await fetch('https://bytebin.lucko.me/post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(snapshot)
+        });
+
+        if (byteRes && byteRes.ok) {
+          const byteData = await byteRes.json();
+          if (byteData && byteData.key) {
+            state.lastCloudBytebinKey = byteData.key;
+            state.lastCloudSyncTime = now;
+            try {
+              localStorage.setItem('foodsync_cloud_db_key', byteData.key);
+            } catch (e) {}
+
+            await fetch(`https://ntfy.sh/${CLOUD_DB_NTFY_TOPIC}`, {
+              method: 'POST',
+              body: JSON.stringify({
+                key: byteData.key,
+                updatedAt: now,
+                currentRestaurantId: state.currentRestaurantId,
+                customCount: state.customRestaurants.length,
+                ordersCount: state.orders.length
+              })
+            });
+          }
+        }
+      } while (hasPendingCloudSave);
+    } catch (err) {
+      // Quiet fallback if offline
+    } finally {
+      activeCloudSavePromise = null;
+    }
+  })();
+
+  return activeCloudSavePromise;
+}
+
+function applySharedCloudState(cloudData, showNotifications = false) {
+  if (!cloudData || typeof cloudData !== 'object') return;
+  let uiChanged = false;
+
+  // 1. Merge deletedRestaurantIds
+  if (Array.isArray(cloudData.deletedRestaurantIds) && cloudData.deletedRestaurantIds.length > 0) {
+    const delSet = new Set([...(state.deletedRestaurantIds || []), ...cloudData.deletedRestaurantIds]);
+    if (delSet.size !== (state.deletedRestaurantIds || []).length) {
+      state.deletedRestaurantIds = Array.from(delSet);
+      uiChanged = true;
+    }
+  }
+
+  // 2. Merge customRestaurants
+  if (Array.isArray(cloudData.customRestaurants) && cloudData.customRestaurants.length > 0) {
+    let restAddedOrUpdated = false;
+    cloudData.customRestaurants.forEach(cloudRest => {
+      if (!cloudRest || !cloudRest.name || !Array.isArray(cloudRest.dishes)) return;
+      const normName = (cloudRest.name || '').toLowerCase().trim();
+      const normUrl = cloudRest.shopeeUrl ? normalizeShopeeUrl(cloudRest.shopeeUrl).toLowerCase() : '';
+
+      const localIdx = state.customRestaurants.findIndex(r =>
+        r.id === cloudRest.id ||
+        (normName && (r.name || '').toLowerCase().trim() === normName) ||
+        (normUrl && normUrl !== 'https://shopeefood.vn' && r.shopeeUrl && normalizeShopeeUrl(r.shopeeUrl).toLowerCase() === normUrl)
+      );
+
+      if (localIdx < 0) {
+        state.customRestaurants.push({ ...cloudRest, isCustom: true });
+        restAddedOrUpdated = true;
+      } else {
+        const localRest = state.customRestaurants[localIdx];
+        if ((cloudRest.dishes.length > (localRest.dishes?.length || 0)) || ((cloudRest.updatedAt || 0) > (localRest.updatedAt || 0))) {
+          state.customRestaurants[localIdx] = { ...cloudRest, isCustom: true };
+          restAddedOrUpdated = true;
+        }
+      }
+    });
+
+    if (restAddedOrUpdated) {
+      saveRestaurantsToLocal();
+      rebuildMergedRestaurants();
+      uiChanged = true;
+    }
+  }
+
+  // 3. Sync Orders
+  if (Array.isArray(cloudData.orders)) {
+    const localOrderIds = state.orders.map(o => o.id).join(',');
+    const cloudOrderIds = cloudData.orders.map(o => o.id).join(',');
+    if (cloudOrderIds !== localOrderIds && (cloudData.updatedAt >= state.lastCloudSyncTime || state.orders.length === 0)) {
+      const orderMap = new Map();
+      cloudData.orders.forEach(o => { if (o && o.id) orderMap.set(o.id, o); });
+      state.orders.forEach(o => { if (o && o.id && !orderMap.has(o.id)) orderMap.set(o.id, o); });
+      state.orders = Array.from(orderMap.values());
+      saveOrdersToLocal();
+      uiChanged = true;
+    }
+  }
+
+  // 4. Sync Active Selected Restaurant if cloud has a custom or active restaurant
+  if (cloudData.currentRestaurantId && cloudData.currentRestaurantId !== state.currentRestaurantId) {
+    if (state.restaurants.some(r => r.id === cloudData.currentRestaurantId)) {
+      if ((cloudData.updatedAt || 0) > state.lastCloudSyncTime || state.currentRestaurantId === 'dao-che-kim-giang') {
+        state.currentRestaurantId = cloudData.currentRestaurantId;
+        try {
+          localStorage.setItem('foodsync_last_restaurant', state.currentRestaurantId);
+        } catch (e) {}
+        uiChanged = true;
+      }
+    }
+  }
+
+  if (cloudData.updatedAt && cloudData.updatedAt > state.lastCloudSyncTime) {
+    state.lastCloudSyncTime = cloudData.updatedAt;
+  }
+
+  if (uiChanged) {
+    renderRestaurantSelector();
+    renderCurrentRestaurantInfo();
+    renderCategoryPills();
+    renderDishesGrid();
+    renderOrderBoard(true);
+    const modal = document.getElementById('addRestaurantModal');
+    if (modal && !modal.classList.contains('hidden')) {
+      renderShopeeCatalogGrid();
+    }
+  }
+}
+
+async function loadFromSharedCloudDB() {
+  try {
+    const res = await fetch(`https://ntfy.sh/${CLOUD_DB_NTFY_TOPIC}/json?poll=1&since=all`, {
+      cache: 'no-store'
+    });
+    if (!res || !res.ok) return;
+    const text = await res.text();
+    if (!text) return;
+
+    const lines = text.trim().split(/\r?\n/).filter(Boolean);
+    let latestPointer = null;
+    for (let i = lines.length - 1; i >= 0; i--) {
+      try {
+        const evt = JSON.parse(lines[i]);
+        if (evt && evt.event === 'message' && evt.message) {
+          const msgObj = JSON.parse(evt.message);
+          if (msgObj && msgObj.key) {
+            latestPointer = msgObj;
+            break;
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (latestPointer && latestPointer.key) {
+      updateSyncBadge(true, 'Đồng bộ trực tiếp (Cloud DB)');
+      if (latestPointer.key !== state.lastCloudBytebinKey || state.customRestaurants.length < (latestPointer.customCount || 0)) {
+        const bRes = await fetch(`https://bytebin.lucko.me/${latestPointer.key}`);
+        if (bRes && bRes.ok) {
+          const cloudData = await bRes.json();
+          state.lastCloudBytebinKey = latestPointer.key;
+          try {
+            localStorage.setItem('foodsync_cloud_db_key', latestPointer.key);
+          } catch (e) {}
+          applySharedCloudState(cloudData, false);
+        }
+      }
+    }
+  } catch (err) {}
+}
+
+// Fetch Initial Data (Instant Local Render + Background Server & Cloud DB Sync)
 function initializeData() {
   // 1. Load Local Orders first for immediate render
   try {
@@ -143,33 +479,10 @@ function initializeData() {
     }
   } catch (e) {}
 
-  // 2. Load Full Built-in ShopeeFood Catalog & User Saved Restaurants
-  const localRests = loadLocalRestaurants();
-  let baseRests = [];
-  if (typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS)) {
-    baseRests = INITIAL_RESTAURANTS;
-  }
-
-  const restMap = new Map();
-  // Register all 144+ integrated ShopeeFood restaurants first
-  baseRests.forEach(r => {
-    if (r && r.id) restMap.set(r.id, r);
-  });
-
-  if (localRests && localRests.length > 0) {
-    localRests.forEach(r => {
-      if (r && r.id && !restMap.has(r.id)) {
-        restMap.set(r.id, r);
-      }
-    });
-  }
-
-  state.restaurants = Array.from(restMap.values());
-
-  // Verify Current Restaurant exists
-  if (!state.restaurants.some(r => r.id === state.currentRestaurantId)) {
-    state.currentRestaurantId = state.restaurants[0]?.id || 'dao-che-kim-giang';
-  }
+  // 2. Load Custom Added Restaurants & Merge with Built-in ShopeeFood Catalog
+  state.customRestaurants = loadLocalCustomRestaurants();
+  state.deletedRestaurantIds = loadLocalDeletedRestaurantIds();
+  rebuildMergedRestaurants();
 
   // 3. Render UI IMMEDIATELY (0ms Instant First Contentful Paint)
   renderRestaurantSelector();
@@ -178,7 +491,8 @@ function initializeData() {
   renderDishesGrid();
   renderOrderBoard();
 
-  // 4. Background Server Sync (non-blocking)
+  // 4. Background Cloud DB & Local Server Sync (non-blocking)
+  loadFromSharedCloudDB();
   syncWithServerInBackground();
 }
 
@@ -189,17 +503,17 @@ async function syncWithServerInBackground() {
     if (res && res.ok) {
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
+        const baseIds = new Set((typeof INITIAL_RESTAURANTS !== 'undefined' ? INITIAL_RESTAURANTS : []).map(r => r.id));
         let changed = false;
         data.forEach(r => {
-          const normName = (r.name || '').toLowerCase().trim();
-          if (normName.includes('đảo chè') || normName.includes('dao che')) return;
-          if (r.id && !state.restaurants.some(existing => existing.id === r.id)) {
-            state.restaurants.push(r);
+          if (r && r.id && !baseIds.has(r.id) && !state.customRestaurants.some(c => c.id === r.id)) {
+            state.customRestaurants.push({ ...r, isCustom: true });
             changed = true;
           }
         });
         if (changed) {
           saveRestaurantsToLocal();
+          rebuildMergedRestaurants();
           renderRestaurantSelector();
         }
       }
@@ -260,7 +574,16 @@ function setupMqttRealtimeSync() {
       state.isMqttConnected = true;
       updateSyncBadge(true, 'Đồng bộ trực tiếp (Real-time)');
 
-      mqttClient.subscribe([MQTT_TOPIC_ORDERS, MQTT_TOPIC_RESTAURANTS, MQTT_TOPIC_SYNC], (err) => {
+      const topics = [
+        MQTT_TOPIC_ORDERS,
+        MQTT_TOPIC_RESTAURANTS,
+        MQTT_TOPIC_SYNC,
+        MQTT_TOPIC_RET_CUSTOM_RESTS,
+        MQTT_TOPIC_RET_ORDERS,
+        MQTT_TOPIC_RET_ACTIVE_REST
+      ];
+
+      mqttClient.subscribe(topics, (err) => {
         if (!err) {
           mqttClient.publish(MQTT_TOPIC_SYNC, JSON.stringify({ type: 'SYNC_REQUEST', clientId }));
         }
@@ -270,19 +593,17 @@ function setupMqttRealtimeSync() {
     mqttClient.on('message', (topic, payload) => {
       try {
         const msg = JSON.parse(payload.toString());
-        if (msg.clientId === clientId) return; // ignore own echo
+        if (msg.clientId && msg.clientId === clientId) return; // ignore own echo
         handleIncomingMqttMessage(topic, msg);
       } catch (e) {}
     });
 
     mqttClient.on('error', () => {
       state.isMqttConnected = false;
-      updateSyncBadge(false, 'Đang kết nối lại...');
     });
 
     mqttClient.on('close', () => {
       state.isMqttConnected = false;
-      updateSyncBadge(false, 'Đồng bộ nội bộ');
     });
 
   } catch (e) {}
@@ -310,6 +631,35 @@ function updateSyncBadge(online, text) {
 }
 
 function handleIncomingMqttMessage(topic, msg) {
+  if (topic === MQTT_TOPIC_RET_CUSTOM_RESTS) {
+    applySharedCloudState({
+      updatedAt: msg.updatedAt || Date.now(),
+      customRestaurants: msg.customRestaurants || [],
+      deletedRestaurantIds: msg.deletedRestaurantIds || []
+    });
+    return;
+  }
+
+  if (topic === MQTT_TOPIC_RET_ORDERS) {
+    if (Array.isArray(msg.orders)) {
+      applySharedCloudState({
+        updatedAt: msg.updatedAt || Date.now(),
+        orders: msg.orders
+      });
+    }
+    return;
+  }
+
+  if (topic === MQTT_TOPIC_RET_ACTIVE_REST) {
+    if (msg.currentRestaurantId && msg.currentRestaurantId !== state.currentRestaurantId) {
+      applySharedCloudState({
+        updatedAt: msg.updatedAt || Date.now(),
+        currentRestaurantId: msg.currentRestaurantId
+      });
+    }
+    return;
+  }
+
   if (topic === MQTT_TOPIC_ORDERS) {
     if (msg.type === 'ORDER_ADDED' && msg.order) {
       const idx = state.orders.findIndex(o => o.id === msg.order.id);
@@ -333,42 +683,64 @@ function handleIncomingMqttMessage(topic, msg) {
     }
   } else if (topic === MQTT_TOPIC_RESTAURANTS) {
     if (msg.type === 'RESTAURANT_SAVED' && msg.restaurant) {
-      const idx = state.restaurants.findIndex(r => r.id === msg.restaurant.id || (msg.restaurant.shopeeUrl && r.shopeeUrl === msg.restaurant.shopeeUrl));
-      if (idx >= 0) {
-        state.restaurants[idx] = msg.restaurant;
-      } else {
-        state.restaurants.push(msg.restaurant);
+      const saved = upsertCustomRestaurant(msg.restaurant);
+      if (msg.selectActive && saved) {
+        state.currentRestaurantId = saved.id;
+        try {
+          localStorage.setItem('foodsync_last_restaurant', saved.id);
+        } catch (e) {}
       }
-      saveRestaurantsToLocal();
       renderRestaurantSelector();
-      showToast(`🏪 Quán mới vừa được thêm: "${msg.restaurant.name}"`, 'info');
+      renderCurrentRestaurantInfo();
+      renderCategoryPills();
+      renderDishesGrid();
+      renderOrderBoard(true);
+      showToast(`🏪 Quán mới vừa được lưu vào hệ thống: "${msg.restaurant.name}"`, 'info');
+    } else if (msg.type === 'RESTAURANT_DELETED' && msg.restaurantId) {
+      if (!state.deletedRestaurantIds.includes(msg.restaurantId)) {
+        state.deletedRestaurantIds.push(msg.restaurantId);
+      }
+      state.customRestaurants = state.customRestaurants.filter(r => r.id !== msg.restaurantId);
+      saveRestaurantsToLocal();
+      rebuildMergedRestaurants();
+      renderRestaurantSelector();
+      renderCurrentRestaurantInfo();
+      renderCategoryPills();
+      renderDishesGrid();
+    } else if (msg.type === 'ACTIVE_RESTAURANT_CHANGED' && msg.restaurantId) {
+      if (state.restaurants.some(r => r.id === msg.restaurantId) && state.currentRestaurantId !== msg.restaurantId) {
+        state.currentRestaurantId = msg.restaurantId;
+        try {
+          localStorage.setItem('foodsync_last_restaurant', msg.restaurantId);
+        } catch (e) {}
+        renderRestaurantSelector();
+        renderCurrentRestaurantInfo();
+        renderCategoryPills();
+        renderDishesGrid();
+        renderOrderBoard(true);
+      }
     }
   } else if (topic === MQTT_TOPIC_SYNC) {
     if (msg.type === 'SYNC_REQUEST') {
-      if (state.orders.length > 0 && mqttClient && mqttClient.connected) {
+      // Only send compact customRestaurants + orders + currentRestaurantId (NEVER send 3.4MB INITIAL_RESTAURANTS!)
+      if ((state.orders.length > 0 || state.customRestaurants.length > 0) && mqttClient && mqttClient.connected) {
         mqttClient.publish(MQTT_TOPIC_SYNC, JSON.stringify({
           type: 'SYNC_RESPONSE',
           orders: state.orders,
-          restaurants: state.restaurants
+          customRestaurants: state.customRestaurants,
+          deletedRestaurantIds: state.deletedRestaurantIds,
+          currentRestaurantId: state.currentRestaurantId,
+          updatedAt: Date.now()
         }));
       }
     } else if (msg.type === 'SYNC_RESPONSE') {
-      if (Array.isArray(msg.orders) && msg.orders.length > 0) {
-        const orderMap = new Map();
-        msg.orders.forEach(o => orderMap.set(o.id, o));
-        state.orders.forEach(o => orderMap.set(o.id, o));
-        state.orders = Array.from(orderMap.values());
-        saveOrdersToLocal();
-        renderOrderBoard(true);
-      }
-      if (Array.isArray(msg.restaurants) && msg.restaurants.length > 0) {
-        const restMap = new Map();
-        state.restaurants.forEach(r => restMap.set(r.id, r));
-        msg.restaurants.forEach(r => restMap.set(r.id, r));
-        state.restaurants = Array.from(restMap.values());
-        saveRestaurantsToLocal();
-        renderRestaurantSelector();
-      }
+      applySharedCloudState({
+        updatedAt: msg.updatedAt || Date.now(),
+        orders: msg.orders,
+        customRestaurants: msg.customRestaurants || msg.restaurants,
+        deletedRestaurantIds: msg.deletedRestaurantIds,
+        currentRestaurantId: msg.currentRestaurantId
+      });
     }
   }
 }
@@ -382,13 +754,17 @@ function broadcastMqtt(topic, payload) {
   notifySync(payload.type || 'ORDER_UPDATED');
 }
 
-// Local server polling (for localhost/LAN mode)
+// Cloud DB + Local server polling
 let isPollingInProgress = false;
 function startRealtimePolling() {
   async function doPoll() {
     if (isPollingInProgress) return;
     isPollingInProgress = true;
     try {
+      // 1. Poll Shared Cloud DB (works on GitHub Pages across all computers/browsers)
+      await loadFromSharedCloudDB();
+
+      // 2. Poll Local Server if running on localhost
       const res = await apiFetch('/api/sync-check', { cache: 'no-store', timeout: 1200 });
       if (res && res.ok) {
         const syncData = await res.json();
@@ -404,7 +780,14 @@ function startRealtimePolling() {
           const rRes = await apiFetch('/api/restaurants', { timeout: 1200 });
           if (rRes && rRes.ok) {
             const data = await rRes.json();
-            state.restaurants = Array.isArray(data) ? data : (data && data.id ? [data] : state.restaurants);
+            if (Array.isArray(data)) {
+              const baseIds = new Set((typeof INITIAL_RESTAURANTS !== 'undefined' ? INITIAL_RESTAURANTS : []).map(r => r.id));
+              data.forEach(r => {
+                if (r && r.id && !baseIds.has(r.id)) {
+                  upsertCustomRestaurant(r);
+                }
+              });
+            }
             renderRestaurantSelector();
             renderCurrentRestaurantInfo();
             renderCategoryPills();
@@ -416,20 +799,29 @@ function startRealtimePolling() {
       // Server offline / unreachable, backoff quietly
     } finally {
       isPollingInProgress = false;
-      const nextDelay = isServerReachable ? 1500 : 5000;
+      const nextDelay = isServerReachable ? 2000 : 4500;
       setTimeout(doPoll, nextDelay);
     }
   }
 
-  setTimeout(doPoll, 1000);
+  setTimeout(doPoll, 2000);
 }
 
 // Setup Broadcast Channel for instant tab-to-tab sync
 function setupBroadcastListener() {
   if (!broadcastChannel) return;
   broadcastChannel.onmessage = async (event) => {
-    if (event.data?.type === 'ORDER_UPDATED' || event.data?.type === 'RESTAURANT_UPDATED') {
+    if (event.data?.type === 'ORDER_UPDATED' || event.data?.type === 'RESTAURANT_UPDATED' || event.data?.type === 'RESTAURANT_SAVED') {
+      state.customRestaurants = loadLocalCustomRestaurants();
+      state.deletedRestaurantIds = loadLocalDeletedRestaurantIds();
+      const savedLastRest = localStorage.getItem('foodsync_last_restaurant');
+      if (savedLastRest) state.currentRestaurantId = savedLastRest;
+      rebuildMergedRestaurants();
       await fetchOrders();
+      renderRestaurantSelector();
+      renderCurrentRestaurantInfo();
+      renderCategoryPills();
+      renderDishesGrid();
       renderOrderBoard(true);
     }
   };
@@ -515,13 +907,18 @@ function deleteCurrentRestaurant() {
     return;
   }
 
-  state.restaurants = state.restaurants.filter(r => r.id !== current.id);
+  if (!state.deletedRestaurantIds.includes(current.id)) {
+    state.deletedRestaurantIds.push(current.id);
+  }
+  state.customRestaurants = state.customRestaurants.filter(r => r.id !== current.id);
   saveRestaurantsToLocal();
+  rebuildMergedRestaurants();
 
   broadcastMqtt(MQTT_TOPIC_RESTAURANTS, {
     type: 'RESTAURANT_DELETED',
     restaurantId: current.id
   });
+  saveToSharedCloudDB();
 
   showToast(`🗑️ Đã xóa quán "${current.name}".`, 'info');
   changeRestaurant('dao-che-kim-giang', true);
@@ -547,6 +944,13 @@ async function changeRestaurant(restaurantId, skipAutoSync = false) {
   renderCategoryPills();
   renderDishesGrid();
   renderOrderBoard();
+
+  // Broadcast active restaurant change to team & persist in shared cloud DB
+  broadcastMqtt(MQTT_TOPIC_RESTAURANTS, {
+    type: 'ACTIVE_RESTAURANT_CHANGED',
+    restaurantId: restaurantId
+  });
+  saveToSharedCloudDB();
 
   // 2. Auto-sync latest menu from ShopeeFood in background
   if (!skipAutoSync) {
@@ -619,23 +1023,25 @@ async function triggerBackgroundMenuUpdate(restaurantId, shopeeUrl, showFeedback
         target.category = fresh.category || target.category;
         target.dishes = fresh.dishes;
 
+        const savedTarget = upsertCustomRestaurant(target);
+
         try {
           await apiFetch('/api/restaurants', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(target)
+            body: JSON.stringify(savedTarget || target)
           });
         } catch (e) {}
 
-        saveRestaurantsToLocal();
-        broadcastMqtt(MQTT_TOPIC_RESTAURANTS, { type: 'RESTAURANT_SAVED', restaurant: target });
+        broadcastMqtt(MQTT_TOPIC_RESTAURANTS, { type: 'RESTAURANT_SAVED', restaurant: savedTarget || target });
+        saveToSharedCloudDB();
 
         if (state.currentRestaurantId === restaurantId) {
           renderRestaurantSelector();
           renderCurrentRestaurantInfo();
           renderCategoryPills();
           renderDishesGrid();
-          showToast(`✨ Đã cập nhật ${fresh.dishes.length} món mới nhất từ ShopeeFood!`, 'success');
+          showToast(`✨ Đã cập nhật & lưu ${fresh.dishes.length} món mới nhất vào cơ sở dữ liệu chung!`, 'success');
         }
       }
     }
@@ -904,11 +1310,12 @@ async function submitOrderFromModal() {
   closeOrderModal();
   showToast(`✅ Đã thêm món: ${dish.name} (${ordererName})`, 'success');
 
-  // 3. Broadcast Real-time to All Peers
+  // 3. Broadcast Real-time to All Peers & Shared Cloud DB
   broadcastMqtt(MQTT_TOPIC_ORDERS, {
     type: 'ORDER_ADDED',
     order: newOrder
   });
+  saveToSharedCloudDB();
 
   // 4. Persist to Local Server if available
   try {
@@ -933,6 +1340,7 @@ async function deleteOrder(orderId) {
     type: 'ORDER_DELETED',
     orderId: orderId
   });
+  saveToSharedCloudDB();
 
   try {
     await apiFetch(`/api/orders?id=${encodeURIComponent(orderId)}`, {
@@ -963,6 +1371,7 @@ async function confirmClearOrders() {
     type: 'ORDERS_CLEARED',
     restaurantId: current.id
   });
+  saveToSharedCloudDB();
 
   try {
     await apiFetch(`/api/orders?clearRestaurantId=${encodeURIComponent(current.id)}`, {
@@ -1327,9 +1736,10 @@ function renderShopeeCatalogGrid() {
   const badge = document.getElementById('catalogTotalBadge');
   if (!grid) return;
 
-  const catalog = (typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS))
-    ? INITIAL_RESTAURANTS
-    : state.restaurants;
+  // Always use state.restaurants so newly added/saved restaurants in the shared database are shown first!
+  const catalog = (state.restaurants && state.restaurants.length > 0)
+    ? state.restaurants
+    : ((typeof INITIAL_RESTAURANTS !== 'undefined' && Array.isArray(INITIAL_RESTAURANTS)) ? INITIAL_RESTAURANTS : []);
 
   if (badge) badge.textContent = catalog.length;
 
@@ -1396,17 +1806,23 @@ function renderShopeeCatalogGrid() {
     const isCurrent = r.id === state.currentRestaurantId;
     const dishCount = r.dishes?.length || 0;
     const sampleDishes = (r.dishes || []).slice(0, 3).map(d => d.name).join(', ');
+    const customBadge = r.isCustom
+      ? `<span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-100 text-emerald-700 whitespace-nowrap">☁️ Đã lưu chung</span>`
+      : '';
 
     return `
-      <div class="p-3.5 rounded-xl border ${isCurrent ? 'border-orange-500 bg-orange-50/40' : 'border-slate-200 bg-white hover:border-orange-300'} shadow-2xs transition-all flex flex-col justify-between gap-2.5">
+      <div class="p-3.5 rounded-xl border ${isCurrent ? 'border-orange-500 bg-orange-50/40' : (r.isCustom ? 'border-emerald-300 bg-emerald-50/20 hover:border-orange-300' : 'border-slate-200 bg-white hover:border-orange-300')} shadow-2xs transition-all flex flex-col justify-between gap-2.5">
         <div class="space-y-1">
           <div class="flex items-start justify-between gap-2">
             <h4 class="font-black text-slate-900 text-xs sm:text-sm leading-snug line-clamp-1" title="${escapeHtml(r.name)}">
               ${escapeHtml(r.name)}
             </h4>
-            <span class="px-2 py-0.5 text-[10px] font-black rounded-full bg-orange-100 text-orange-700 whitespace-nowrap flex-shrink-0">
-              ${dishCount} món
-            </span>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              ${customBadge}
+              <span class="px-2 py-0.5 text-[10px] font-black rounded-full bg-orange-100 text-orange-700 whitespace-nowrap">
+                ${dishCount} món
+              </span>
+            </div>
           </div>
           <p class="text-[11px] text-slate-500 line-clamp-1 flex items-center gap-1">
             <span>📍 ${escapeHtml(r.address || 'Hà Nội')}</span>
@@ -1925,7 +2341,9 @@ async function updateRestaurantMenuFromUrl() {
   }
 
   const cleanUrl = normalizeShopeeUrl(rawUrl);
-  const catalog = (typeof INITIAL_RESTAURANTS !== 'undefined') ? INITIAL_RESTAURANTS : (state.restaurants || []);
+  const catalog = (state.restaurants && state.restaurants.length > 0)
+    ? state.restaurants
+    : ((typeof INITIAL_RESTAURANTS !== 'undefined') ? INITIAL_RESTAURANTS : []);
 
   // If user typed a keyword instead of a URL, search catalog first!
   if (!cleanUrl.includes('shopeefood.vn') && !cleanUrl.includes('shopee.vn') && !cleanUrl.includes('now.vn') && !cleanUrl.startsWith('http')) {
@@ -2105,7 +2523,7 @@ function deleteDraftDish(index) {
   }
 }
 
-// Save New Restaurant and Switch to it Immediately
+// Save New Restaurant and Switch to it Immediately (Persists to Shared Cloud DB & All Browsers)
 async function saveNewRestaurant() {
   const nameInput = document.getElementById('newRestName');
   const name = nameInput ? nameInput.value.trim() : '';
@@ -2124,16 +2542,29 @@ async function saveNewRestaurant() {
     return;
   }
 
-  const newId = 'rest-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 5);
+  const cleanUrl = normalizeShopeeUrl(url);
+  const urlParts = cleanUrl.split('/').filter(Boolean);
+  const slugFromUrl = urlParts.length >= 2 ? urlParts[urlParts.length - 1].toLowerCase().replace(/[^a-z0-9-]/g, '') : '';
+  const slugFromName = name.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  const deterministicId = (slugFromUrl && slugFromUrl.length >= 3 && slugFromUrl !== 'shopeefoodvn')
+    ? slugFromUrl
+    : (slugFromName || ('rest-' + Date.now().toString(36)));
 
   const newRestaurant = {
-    id: newId,
+    id: deterministicId,
     name: name,
     category: category,
     address: address,
     timeOpen: '09:00 - 22:30',
     rating: '5.0',
-    shopeeUrl: url || 'https://shopeefood.vn',
+    shopeeUrl: cleanUrl || 'https://shopeefood.vn',
+    isCustom: true,
+    updatedAt: Date.now(),
     dishes: state.draftDishes.map((d, i) => ({
       id: d.id || `dish-${(i + 1).toString().padStart(2, '0')}`,
       name: d.name,
@@ -2144,31 +2575,34 @@ async function saveNewRestaurant() {
     }))
   };
 
-  const existingIdx = state.restaurants.findIndex(r => r.name.toLowerCase() === name.toLowerCase());
-  if (existingIdx >= 0) {
-    state.restaurants[existingIdx] = newRestaurant;
-  } else {
-    state.restaurants.unshift(newRestaurant);
-  }
+  // 1. Upsert into state.customRestaurants & local storage & rebuild merged state.restaurants
+  const savedRestaurant = upsertCustomRestaurant(newRestaurant) || newRestaurant;
+  state.currentRestaurantId = savedRestaurant.id;
+  try {
+    localStorage.setItem('foodsync_last_restaurant', savedRestaurant.id);
+  } catch (e) {}
 
-  saveRestaurantsToLocal();
-
+  // 2. Broadcast to all online peers via MQTT & persist to Shared Cloud Database
   broadcastMqtt(MQTT_TOPIC_RESTAURANTS, {
     type: 'RESTAURANT_SAVED',
-    restaurant: newRestaurant
+    restaurant: savedRestaurant,
+    selectActive: true
   });
+  saveToSharedCloudDB();
 
+  // 3. Also save to local server if running on localhost
   try {
     await apiFetch('/api/restaurants', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newRestaurant)
+      body: JSON.stringify(savedRestaurant)
     });
   } catch (e) {}
 
   closeAddRestaurantModal();
-  changeRestaurant(newRestaurant.id, true);
-  showToast(`🎉 Đã lưu và chọn quán: "${newRestaurant.name}"!`, 'success');
+  changeRestaurant(savedRestaurant.id, true);
+  showToast(`🎉 Đã lưu quán "${savedRestaurant.name}" (${savedRestaurant.dishes.length} món) vào cơ sở dữ liệu chung!`, 'success');
+  await saveToSharedCloudDB();
 }
 
 // ------------------------------------------------------------------------------

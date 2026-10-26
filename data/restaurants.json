@@ -1251,6 +1251,186 @@
                    ]
     },
     {
+        "id":  "banh-ran-quy-khu-kham-thien",
+        "name":  "BÃ¡nh RÃ¡n - Quy Khá»© - KhÃ¢m ThiÃªn",
+        "category":  "QuÃ¡n Än",
+        "address":  "221B KhÃ¢m ThiÃªn, Äá»ng Äa, HÃ  Ná»i",
+        "timeOpen":  "09:00 - 22:30",
+        "rating":  "5.0",
+        "shopeeUrl":  "https://shopeefood.vn/ha-noi/banh-ran-quy-khu-kham-thien",
+        "description":  "Thực đơn chuẩn 100% từ ShopeeFood.vn",
+        "dishes":  [
+                       {
+                           "id":  "dish-01",
+                           "name":  "NhÃ¢n Truyá»n Thá»ng (set 5 bÃ¡nh)",
+                           "price":  70000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "Thá»t náº¡c vai heo, má»c nhÄ©, náº¥m hÆ°Æ¡ng, miáº¿n",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-02",
+                           "name":  "NhÃ¢n Truyá»n Thá»ng (set 2 bÃ¡nh)",
+                           "price":  29000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "Thá»t náº¡c vai heo, má»c nhÄ©, náº¥m hÆ°Æ¡ng, miáº¿n",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-03",
+                           "name":  "NhÃ¢n PhÃ´ Mai (set 2 bÃ¡nh)",
+                           "price":  35000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "PhÃ´ mai Mozzarella, sá»t phÃ´ mai",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-04",
+                           "name":  "NhÃ¢n PhÃ´ Mai (set 5 bÃ¡nh)",
+                           "price":  85000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "PhÃ´ mai Mozzarella, sá»t phÃ´ mai",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-05",
+                           "name":  "NhÃ¢n BÃ² Náº¥m (set 2 bÃ¡nh)",
+                           "price":  42000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "Thá»t bÃ² Ãc báº±m, náº¥m ÄÃ¹i gÃ , náº¥m hÆ°Æ¡ng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-06",
+                           "name":  "NhÃ¢n BÃ² Náº¥m (set 5 bÃ¡nh)",
+                           "price":  105000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "Thá»t bÃ² Ãc báº±m, náº¥m ÄÃ¹i gÃ , náº¥m hÆ°Æ¡ng",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-07",
+                           "name":  "NhÃ¢n Háº£i Sáº£n Sá»t X.O (set 2 bÃ¡nh)",
+                           "price":  45000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "TÃ´m, má»±c, sá»t X.O Äáº·c biá»t",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-08",
+                           "name":  "NhÃ¢n Háº£i Sáº£n Sá»t X.O (set 5 bÃ¡nh)",
+                           "price":  110000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "TÃ´m, má»±c, sá»t X.O Äáº·c biá»t",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-09",
+                           "name":  "Combo Tháº­p Cáº©m Máº·n (4 bÃ¡nh)",
+                           "price":  75000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n máº·n",
+                           "description":  "Truyá»n thá»ng, phÃ´ mai, bÃ² náº¥m, háº£i sáº£n",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-10",
+                           "name":  "NhÃ¢n Cá»m TÃº Lá» (set 2 bÃ¡nh)",
+                           "price":  35000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n ngá»t",
+                           "description":  "Cá»m non TÃº Lá» dáº»o thÆ¡m, dá»«a tÆ°Æ¡i",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-11",
+                           "name":  "NhÃ¢n Cá»m TÃº Lá» (set 5 bÃ¡nh)",
+                           "price":  85000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n ngá»t",
+                           "description":  "Cá»m non TÃº Lá» dáº»o thÆ¡m, dá»«a tÆ°Æ¡i",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-12",
+                           "name":  "NhÃ¢n Äáº­u Xanh Háº¡t Sen (set 2 bÃ¡nh)",
+                           "price":  28000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n ngá»t",
+                           "description":  "Äáº­u xanh, háº¡t sen bÃ¹i ngá»t dá»u",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-13",
+                           "name":  "NhÃ¢n Matcha TrÃ  Xanh (set 2 bÃ¡nh)",
+                           "price":  35000,
+                           "category":  "BÃ¡nh rÃ¡n nhÃ¢n ngá»t",
+                           "description":  "Matcha Nháº­t Báº£n thÆ¡m mÃ¡t",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-14",
+                           "name":  "ChÃ¨ BÆ°á»i Cá»m Non",
+                           "price":  30000,
+                           "category":  "ChÃ¨",
+                           "description":  "ChÃ¨ bÆ°á»i cÃ¹i giÃ²n, cá»m non, cá»t dá»«a",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-15",
+                           "name":  "TrÃ  Quáº¥t Nha Äam",
+                           "price":  25000,
+                           "category":  "Äá» uá»ng",
+                           "description":  "TrÃ  quáº¥t thanh mÃ¡t kÃ¨m nha Äam giÃ²n",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-16",
+                           "name":  "Sá»¯a Äáº­u NÃ nh Náº¥u Truyá»n Thá»ng",
+                           "price":  20000,
+                           "category":  "Äá» uá»ng",
+                           "description":  "Sá»¯a Äáº­u nÃ nh nguyÃªn cháº¥t nhÃ  náº¥u",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-17",
+                           "name":  "Caramel TrÃ¢n ChÃ¢u Cá»t Dá»«a",
+                           "price":  28000,
+                           "category":  "Caramel \u0026 Sá»¯a chua",
+                           "description":  "Caramel má»m má»n kÃ¨m trÃ¢n chÃ¢u vÃ  cá»t dá»«a",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-18",
+                           "name":  "Sá»¯a Chua Náº¿p Cáº©m",
+                           "price":  28000,
+                           "category":  "Caramel \u0026 Sá»¯a chua",
+                           "description":  "Sá»¯a chua nhÃ  lÃ m káº¿t há»£p náº¿p cáº©m dáº»o",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-19",
+                           "name":  "Sá»¯a Chua Hoa Quáº£",
+                           "price":  32000,
+                           "category":  "Caramel \u0026 Sá»¯a chua",
+                           "description":  "Sá»¯a chua dáº§m hoa quáº£ tÆ°Æ¡i theo mÃ¹a",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-20",
+                           "name":  "ThÃªm Sá»t á»t Ngá»t / NÆ°á»c Cháº¥m",
+                           "price":  5000,
+                           "category":  "Äá» Än kÃ¨m",
+                           "description":  "Pháº§n nÆ°á»c cháº¥m chua ngá»t Än kÃ¨m bÃ¡nh rÃ¡n",
+                           "tag":  ""
+                       },
+                       {
+                           "id":  "dish-21",
+                           "name":  "ThÃªm Äu Äá»§ DÆ°a GÃ³p Chua Ngá»t",
+                           "price":  10000,
+                           "category":  "Äá» Än kÃ¨m",
+                           "description":  "Äu Äá»§ cÃ  rá»t muá»i chua ngá»t chá»ng ngáº¥y",
+                           "tag":  ""
+                       }
+                   ]
+    },
+    {
         "id":  "tiem-che-nha-xanh",
         "name":  "TIỆM CHÈ NHÀ XANH",
         "category":  "Ăn vặt/vỉa hè",
